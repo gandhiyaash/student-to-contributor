@@ -1,0 +1,470 @@
+# WORKSHOP.md — Facilitator Script
+
+Project this file. Follow it top to bottom. Total runtime: **2.5 hours (150 min)** for ~80 students.
+
+Every section has:
+🎤 **SAY** — what to say, near-verbatim.
+🖥️ **SHOW** — what to have on screen.
+💻 **RUN** — exact terminal commands.
+🤖 **ASK CLAUDE** — exact AI prompt (facilitator's Claude Code session).
+👨‍🎓 **STUDENTS DO** — what students do right now.
+🧠 **TAKEAWAY** — the one idea to land.
+✅ **CHECKPOINT** — how you confirm the room is ready to move on.
+
+---
+
+## 0–5 min — Mission
+
+🎤 **SAY**
+"By the end of this session, I don't want you to be able to tell me what a Pull Request is. I want you to have opened one."
+
+🖥️ **SHOW**
+```text
+Issue
+ ↓
+AI
+ ↓
+Code
+ ↓
+Git
+ ↓
+GitHub
+ ↓
+PR
+ ↓
+CI
+ ↓
+Review
+ ↓
+Merge
+```
+
+🎤 **SAY**
+"That's the whole shape of the workshop. Every box on that chart, you will personally go through today, at least once."
+
+👨‍🎓 **STUDENTS DO**
+Open [`README.md`](README.md) on their own laptop.
+
+🧠 **TAKEAWAY**
+Today is about doing the workflow, not memorizing definitions.
+
+✅ **CHECKPOINT**
+Ask: "Everyone has the repo cloned and this README open?" — scan the room for stuck hands before moving on.
+
+---
+
+## 5–15 min — Understand the Project
+
+🎤 **SAY**
+"We're going to work on a tiny app called the Bitcoin Tip Jar. It is not a real wallet — it never touches the Bitcoin network, never handles real money or private keys. Bitcoin is just the theme."
+
+🖥️ **SHOW**
+Open `src/index.html` in a browser (drag the file in, or use a live server). Fill in a name, a fake address, a message. Click "Generate Tip Card."
+
+🎤 **SAY**
+"Two minutes on Bitcoin, because it's the context, not the point of today." Summarize [`docs/bitcoin.md`](docs/bitcoin.md): traditional money routes through a bank's database; Bitcoin routes through a network of independent computers sharing one transaction history. That's it — that's the whole mental model needed for today.
+
+🖥️ **SHOW**
+Open `src/app.js` and `src/index.html` side by side. Point at the `id="tip-address"` element and the `generateBtn.addEventListener` block.
+
+🎤 **SAY**
+"Notice: the address is displayed as plain text, but there's no way to copy it except manually selecting it. That's our issue for today."
+
+👨‍🎓 **STUDENTS DO**
+Open `src/index.html` in their own browser, try generating a card themselves.
+
+🧠 **TAKEAWAY**
+Small, boring codebases are exactly where real contribution work happens — not "build me an app," but "understand this app well enough to change one thing safely."
+
+✅ **CHECKPOINT**
+Ask: "Has everyone got the tip card rendering on their own screen?"
+
+---
+
+## 15–35 min — AI-Assisted Development (Live Demo)
+
+Full script: [`docs/ai-live-demo.md`](docs/ai-live-demo.md). Run it live here, using your own Claude Code session.
+
+🎤 **SAY**
+"Watch how I use AI here. I am not saying 'build me a copy button.' I'm using AI the way an engineer actually would inside a codebase they didn't write."
+
+### Step 1 — Investigate
+
+🤖 **ASK CLAUDE**
+```text
+Explore this repository and understand how the Bitcoin address is currently displayed.
+
+Do not modify anything.
+
+Identify:
+1. The relevant files.
+2. How the current implementation works.
+3. Where the new functionality should probably live.
+4. Any potential edge cases.
+
+Then explain your findings in beginner-friendly language.
+```
+
+🧠 **TAKEAWAY**
+AI can help a developer understand unfamiliar code before touching it.
+
+### Step 2 — Plan
+
+🤖 **ASK CLAUDE**
+```text
+Based on your investigation, propose a minimal implementation plan for the "Add a Copy Address Button" issue.
+
+Do not modify any files yet.
+
+Explain:
+1. Which files you would change.
+2. What you would change.
+3. How you would handle an empty address.
+4. How you would test the feature.
+
+Keep the plan minimal and avoid unrelated changes.
+```
+
+🎤 **SAY**
+"I'm reading this plan before I approve it. This is the step people skip, and it's the most important one."
+
+🧠 **TAKEAWAY**
+Approve the approach before asking AI to implement it — every time.
+
+### Step 3 — Implement
+
+🤖 **ASK CLAUDE**
+```text
+Implement the approved plan.
+
+Keep the change minimal and focused on the issue.
+
+Do not modify unrelated files.
+
+After implementation:
+1. List every file changed.
+2. Explain what changed in each file.
+3. Explain how I can test the feature.
+```
+
+### Step 4 — Inspect the diff
+
+💻 **RUN**
+```bash
+git status
+git diff
+```
+
+🤖 **ASK CLAUDE**
+```text
+Explain the current git diff to me file by file.
+
+Do not modify anything.
+
+For each change explain:
+- what changed
+- why it changed
+- what behavior it affects
+- anything I should verify manually
+```
+
+🎤 **SAY**
+"Never blindly accept AI-generated code. I am reading every line on this screen before I test it."
+
+🧠 **TAKEAWAY**
+The diff is the real artifact. The prompt was just a means to get there.
+
+### Step 5 — Run and test
+
+🖥️ **SHOW**
+Reload `src/index.html`, generate a card, click the new copy button. Test: normal address, empty address, repeated clicks, a narrow/mobile browser window.
+
+🧠 **TAKEAWAY**
+Generated code is not finished software until it's been run.
+
+### Step 6 — Debugging demonstration
+
+🎤 **SAY**
+"I'm going to break this on purpose, so you see what debugging with AI actually looks like."
+
+💻 **RUN**
+Rename the button's `id` in `src/index.html` (e.g. `copy-btn` → `copy-btn-x`) without updating `app.js`, reload, click the button, open the browser console, show the error.
+
+🤖 **ASK CLAUDE**
+```text
+Investigate this failure.
+
+Do not modify the code yet.
+
+Explain:
+1. What is failing.
+2. Why it is failing.
+3. What evidence supports your diagnosis.
+4. The smallest safe fix.
+
+Wait for approval before modifying anything.
+```
+
+🎤 **SAY**
+"Approve the diagnosis before letting it touch anything." Approve, let it fix, reload, retest.
+
+🧠 **TAKEAWAY**
+AI is useful for debugging, not just generating code — but the human still confirms the diagnosis before applying a fix.
+
+✅ **CHECKPOINT**
+Ask: "Show of hands — who followed each of those six steps?" If many hands are down, briefly recap the shape (investigate → plan → implement → inspect → test → debug) before moving on.
+
+---
+
+## 35–55 min — Git
+
+Full walkthrough: [`docs/git-walkthrough.md`](docs/git-walkthrough.md).
+
+🎤 **SAY**
+"Everything I just showed you produced real file changes. Now we save them properly, using Git."
+
+💻 **RUN**
+```bash
+git status
+```
+🎤 **SAY** "Git is telling us exactly what changed since the last save point."
+
+💻 **RUN**
+```bash
+git diff
+```
+🎤 **SAY** "This is the same diff Claude explained a minute ago — now you're reading it with Git directly."
+
+💻 **RUN**
+```bash
+git add .
+git commit -m "feat: add copy address button"
+git log --oneline
+```
+
+🎤 **SAY**
+"Three rooms: your working directory is where you edit, staging is where `git add` puts things ready to save, and a commit is a permanent, named snapshot. `git log` is your timeline."
+
+💻 **RUN**
+```bash
+git branch
+git switch -c feature/copy-address
+```
+
+🖥️ **SHOW**
+```text
+main
+ |
+ └── feature/copy-address
+```
+
+🎤 **SAY**
+"This is how 80 of you can work in the same repository at once without colliding — everyone gets their own branch."
+
+👨‍🎓 **STUDENTS DO**
+Run `git status`, `git diff` (on any file they touch), `git branch` themselves, right now, on their own clone — no changes needed yet, just get comfortable with the commands.
+
+🧠 **TAKEAWAY**
+Working directory → staging → commit → history. Branches isolate work.
+
+✅ **CHECKPOINT**
+Ask: "Everyone run `git branch` and see just `main` listed?" Fix any stragglers before continuing.
+
+---
+
+## 55–65 min — GitHub
+
+Full explanation: [`docs/git-vs-github.md`](docs/git-vs-github.md).
+
+🎤 **SAY**
+"Git and GitHub are not the same thing. Git is the tool on your laptop. GitHub is a website that hosts your repository and adds collaboration on top — Issues, Pull Requests, code review, CI."
+
+🖥️ **SHOW**
+```text
+Your Computer
+     |
+     | git push
+     ↓
+   GitHub
+     |
+     | git pull
+     ↓
+Your Computer
+```
+
+🎤 **SAY**
+"Everything we just did — status, diff, add, commit, branch — none of it touched the internet. Only `push` and `pull` do."
+
+🖥️ **SHOW**
+The GitHub repository page: the Issues tab (show 2-3 real issues), the branches dropdown, an existing closed PR if one exists, or the PR template preview.
+
+🧠 **TAKEAWAY**
+Git = version control on your computer. GitHub = a hosting and collaboration platform for Git repositories.
+
+✅ **CHECKPOINT**
+Ask: "Can everyone see the repository on GitHub in their browser and confirm they have push access?"
+
+---
+
+## 65–120 min — Student Contribution
+
+🎤 **SAY**
+"Now it's your turn. Pick one: beginner, intermediate, or advanced. Beginner if this is your first time with Git — genuinely, that's the right choice, not a lesser one."
+
+🖥️ **SHOW**
+[`tasks/beginner.md`](tasks/beginner.md), [`tasks/intermediate.md`](tasks/intermediate.md), [`tasks/advanced.md`](tasks/advanced.md) — scroll through each briefly.
+
+👨‍🎓 **STUDENTS DO**
+```text
+Issue
+ ↓
+Branch
+ ↓
+Change
+ ↓
+Commit
+ ↓
+Push
+ ↓
+PR
+```
+Pick a task, branch, make the change, test it, commit, push, open a PR using the PR template. AI optional — `docs/claude-code-prompts.md` has ready prompts for anyone with access; everyone else follows the plain steps in their task file.
+
+🎤 **SAY** (roaming while students work)
+"If you're stuck, check `docs/troubleshooting.md` first — SYMPTOM, CAUSE, FIX format, it covers almost everything that goes wrong today."
+
+🧠 **TAKEAWAY**
+This is the same loop as the live demo, just with your hands on the keyboard instead of watching.
+
+✅ **CHECKPOINT**
+Walk the room. By minute ~110, confirm most students have at least an open PR (even if CI hasn't passed yet) before moving to the review moment.
+
+---
+
+## 120–130 min — Review Moment (Human)
+
+🎤 **SAY**
+"A Pull Request is a conversation between engineers, not an exam submission. I'm going to pick one of your PRs and review it live."
+
+🖥️ **SHOW**
+Pick one student's PR. Open the "Files changed" tab.
+
+🎤 **ASK THE ROOM**
+"Would you merge this? Why or why not?" Take 2-3 answers.
+
+🎤 **SAY** — walk through: correctness, scope (does it stay focused on the issue?), readability, tests, CI status, docs. Leave one real, specific review comment on the PR. Ask the student to respond. Then approve.
+
+🧠 **TAKEAWAY**
+Review is about the code and the scope, not a grade on the person.
+
+✅ **CHECKPOINT**
+The selected student has responded to your comment, in the PR thread, before you move on.
+
+---
+
+## 130–138 min — CI Moment (Intentional Failure)
+
+Reference: [`offline/sample-ci-failure.md`](offline/sample-ci-failure.md) and [`offline/sample-ci-success.md`](offline/sample-ci-success.md).
+
+🎤 **SAY**
+"Let's break CI on purpose so you know exactly what a failure looks like and how unscary it is to fix."
+
+💻 **RUN** (on a scratch branch, not a student's real PR)
+```bash
+git switch -c demo/ci-failure
+```
+Add a second row to `students/contributors.md` re-using an existing `@username`, commit, push, open a PR.
+
+🖥️ **SHOW**
+```text
+❌ validate / contributors-format — Failed
+```
+Click into the log:
+```text
+❌ Validation failed
+
+Duplicate GitHub username detected:
+@example-student
+```
+
+🎤 **SAY**
+"Read the error. It tells you exactly what's wrong and what to do." Fix the duplicate row, commit, push.
+
+🖥️ **SHOW**
+```text
+✅ validate / contributors-format — Passed
+```
+
+Close/delete this demo PR and branch afterward so it doesn't linger in the repo.
+
+🧠 **TAKEAWAY**
+```text
+PR → CI → ❌ Failed → Read logs → Understand error → Fix → Commit → Push → CI → ✅ Passed
+```
+A red CI check is routine, not a crisis.
+
+✅ **CHECKPOINT**
+Ask if anyone has hit a real (non-demo) CI failure on their own PR — help them apply the same loop.
+
+---
+
+## 138–145 min — AI Review
+
+Full explanation: [`docs/ai-pr-review.md`](docs/ai-pr-review.md).
+
+🤖 **ASK CLAUDE** (against the same PR reviewed live earlier, or the copy-address implementation)
+```text
+Review the current changes as if you were an open-source maintainer.
+
+Look for:
+- correctness problems
+- unnecessary changes
+- bugs
+- missing tests
+- accessibility issues
+- unclear code
+- anything that could prevent the Pull Request from being merged
+
+Do not modify the code.
+
+Give me a prioritized review.
+```
+
+🎤 **SAY**
+"Now I decide, out loud, which of these points are real." Go through 2-3 points from the output: accept one, reject one, explain why for each.
+
+🧠 **TAKEAWAY**
+AI can assist with review. Humans remain responsible for engineering judgment — accepting everything an AI reviewer says is exactly as wrong as ignoring it entirely.
+
+✅ **CHECKPOINT**
+None needed — this is a short demonstration block.
+
+---
+
+## 145–150 min — Merge and Close
+
+🎤 **SAY**
+"Let's merge at least one real student contribution, live, right now."
+
+🖥️ **SHOW**
+Merge the reviewed PR from the Review Moment (or another ready one). Show the merge commit landing in `main`'s history.
+
+🎤 **SAY** (closing line)
+"You didn't learn open source by watching someone contribute. You learned it by contributing."
+
+👨‍🎓 **STUDENTS DO**
+Anyone who hasn't merged yet: keep pushing fixes after the session — CI and review still work the same way with no facilitator in the room. Point them back to `docs/troubleshooting.md` and `OFFLINE.md` for later, unassisted work.
+
+🧠 **TAKEAWAY**
+The workflow you just practiced is identical to contributing to any real open-source project.
+
+✅ **CHECKPOINT**
+Count merged PRs and opened-but-unmerged PRs before ending — merged ones are done; open ones are homework using the same repo.
+
+---
+
+## Facilitator notes
+
+- Keep a spare terminal/browser tab open on `docs/troubleshooting.md` — you'll link students to it constantly during the 65–120 min block.
+- The CI-failure demo (130–138 min) must run on a throwaway branch, never a real student's PR.
+- If Claude Code is unavailable at demo time, narrate the exact prompts and expected outputs from [`offline/ai-investigation-example.md`](offline/ai-investigation-example.md), [`offline/ai-plan-example.md`](offline/ai-plan-example.md), and [`offline/ai-implementation-example.md`](offline/ai-implementation-example.md) instead — the shape of the lesson doesn't change.
