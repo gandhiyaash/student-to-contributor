@@ -51,8 +51,9 @@ function spawnItem() {
 // Should return true when the basket and the falling item's boxes overlap.
 function isColliding(basketBox, item) {
   return (
-    item.x > basketBox.x + BASKET_WIDTH &&
-    item.x + item.size < basketBox.x &&
+    item.x < basketBox.x + BASKET_WIDTH &&
+    item.x + item.size > basketBox.x &&
+    item.y < basketBox.y + BASKET_HEIGHT &&
     item.y + item.size > basketBox.y
   );
 }
