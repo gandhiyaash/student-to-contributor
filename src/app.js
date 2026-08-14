@@ -20,6 +20,8 @@ const SPAWN_INTERVAL_MS = 800;
 const BOMB_CHANCE = 0.2;
 
 let basket, items, score, lives, running, keys, lastSpawn, animationId;
+let isDragging = false;
+let dragOffsetX = 0;
 
 function resetState() {
   basket = { x: canvas.width / 2 - BASKET_WIDTH / 2, y: canvas.height - BASKET_HEIGHT - 10 };
@@ -134,6 +136,51 @@ window.addEventListener("keyup", (e) => {
 
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", startGame);
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function getPointerX(event) {
+  return event.clientX - canvas.getBoundingClientRect().left;
+}
+
+function startDrag(clientX) {
+  isDragging = true;
+  dragOffsetX = basket.x - clientX;
+}
+
+function moveDrag(clientX) {
+  if (!isDragging) return;
+  basket.x = clamp(clientX + dragOffsetX, 0, canvas.width - BASKET_WIDTH);
+}
+
+function endDrag() {
+  isDragging = false;
+}
+
+canvas.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  startDrag(getPointerX(e.touches[0]));
+}, { passive: false });
+
+canvas.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+  moveDrag(getPointerX(e.touches[0]));
+}, { passive: false });
+
+canvas.addEventListener("touchend", endDrag);
+canvas.addEventListener("touchcancel", endDrag);
+
+canvas.addEventListener("mousedown", (e) => {
+  startDrag(getPointerX(e));
+});
+
+window.addEventListener("mousemove", (e) => {
+  moveDrag(getPointerX(e));
+});
+
+window.addEventListener("mouseup", endDrag);
 
 resetState();
 draw();
