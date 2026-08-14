@@ -1,7 +1,7 @@
-# Your Full Name
+# Pratik Pawar
 
-GitHub: @your-github-username
+GitHub: @PratikPawar61107-hub
 
 ## What I learned
 
-One sentence about what you learned today.
+Today I learned how to use Git branches, commits, push changes to GitHub, and create a Pull Request for an open-source contribution.
