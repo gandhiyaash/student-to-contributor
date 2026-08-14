@@ -22,13 +22,18 @@ const BOMB_CHANCE = 0.2;
 let basket, items, score, lives, running, keys, lastSpawn, animationId;
 
 function resetState() {
-  basket = { x: canvas.width / 2 - BASKET_WIDTH / 2, y: canvas.height - BASKET_HEIGHT - 10 };
+  basket = {
+    x: canvas.width / 2 - BASKET_WIDTH / 2,
+    y: canvas.height - BASKET_HEIGHT - 10
+  };
+
   items = [];
   score = 0;
   lives = 3;
   running = false;
   keys = {};
   lastSpawn = 0;
+
   updateHud();
 }
 
@@ -39,6 +44,7 @@ function updateHud() {
 
 function spawnItem() {
   const isBomb = Math.random() < BOMB_CHANCE;
+
   items.push({
     x: Math.random() * (canvas.width - ITEM_SIZE),
     y: -ITEM_SIZE,
@@ -46,15 +52,6 @@ function spawnItem() {
     speed: 2 + Math.random() * 1.5,
     type: isBomb ? "bomb" : "coin",
   });
-}
-
-// Should return true when the basket and the falling item's boxes overlap.
-function isColliding(basketBox, item) {
-  return (
-    item.x > basketBox.x + BASKET_WIDTH &&
-    item.x + item.size < basketBox.x &&
-    item.y + item.size > basketBox.y
-  );
 }
 
 function update(timestamp) {
@@ -72,19 +69,33 @@ function update(timestamp) {
     const item = items[i];
     item.y += item.speed;
 
-    if (isColliding(basket, item)) {
+    if (
+      isColliding(
+        {
+          x: basket.x,
+          y: basket.y,
+          width: BASKET_WIDTH,
+          height: BASKET_HEIGHT
+        },
+        item
+      )
+    ) {
       items.splice(i, 1);
+
       if (item.type === "coin") {
         score += 10;
       } else {
         lives -= 1;
         alert("Ouch! You hit a bomb.");
       }
+
       updateHud();
+
       if (lives <= 0) {
         endGame();
         return;
       }
+
       continue;
     }
 
@@ -101,11 +112,21 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "#f7931a";
-  ctx.fillRect(basket.x, basket.y, BASKET_WIDTH, BASKET_HEIGHT);
+  ctx.fillRect(
+    basket.x,
+    basket.y,
+    BASKET_WIDTH,
+    BASKET_HEIGHT
+  );
 
   ctx.font = `${ITEM_SIZE}px serif`;
+
   for (const item of items) {
-    ctx.fillText(item.type === "coin" ? "🪙" : "💣", item.x, item.y + item.size);
+    ctx.fillText(
+      item.type === "coin" ? "🪙" : "💣",
+      item.x,
+      item.y + item.size
+    );
   }
 }
 
@@ -128,6 +149,7 @@ function startGame() {
 window.addEventListener("keydown", (e) => {
   keys[e.key] = true;
 });
+
 window.addEventListener("keyup", (e) => {
   keys[e.key] = false;
 });

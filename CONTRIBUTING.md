@@ -68,7 +68,12 @@ git diff
 ```
 
 Read every line. If something in the diff surprises you, figure out why before committing.
+## 5. Run tests
 
+If you are changing game logic, run the automated tests before committing:
+
+```bash
+npm test
 ## 5. Commit
 
 ```bash
