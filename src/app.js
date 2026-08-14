@@ -200,6 +200,12 @@ if (typeof window !== "undefined") {
       }
     }, { passive: false });
 
+    canvas.addEventListener("touchend", (e) => {
+      if (e.touches.length > 0) {
+        updateBasketFromPointer(e.touches[0].clientX);
+      }
+    }, { passive: false });
+
     canvas.addEventListener("mousedown", (e) => {
       isPointerDown = true;
       updateBasketFromPointer(e.clientX);
