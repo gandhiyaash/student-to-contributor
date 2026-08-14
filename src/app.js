@@ -68,6 +68,9 @@ function update(timestamp) {
   if (keys.ArrowLeft) basket.x -= BASKET_SPEED;
   if (keys.ArrowRight) basket.x += BASKET_SPEED;
 
+  // Keep basket within canvas boundaries
+  basket.x = Math.max(0, Math.min(basket.x, canvas.width - BASKET_WIDTH));
+
   for (let i = items.length - 1; i >= 0; i--) {
     const item = items[i];
     item.y += item.speed;
