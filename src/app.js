@@ -1,139 +1,236 @@
-// Coin Catcher — a tiny educational game.
-// Not connected to the real Bitcoin network. Coins are just the theme.
+document.addEventListener("DOMContentLoaded", () => {
+  // DOM Elements
+  const canvas = document.getElementById("game-canvas");
+  const ctx = canvas.getContext("2d");
+  const scoreEl = document.getElementById("score");
+  const livesEl = document.getElementById("lives");
+  const startOverlay = document.getElementById("start-overlay");
+  const gameOverOverlay = document.getElementById("game-over-overlay");
+  const startBtn = document.getElementById("start-btn");
+  const restartBtn = document.getElementById("restart-btn");
+  const finalScoreEl = document.getElementById("final-score");
+  const statusEl = document.getElementById("status");
 
-const canvas = document.getElementById("game-canvas");
-const ctx = canvas.getContext("2d");
+  // Game Configuration
+  const CANVAS_WIDTH = canvas.width;
+  const CANVAS_HEIGHT = canvas.height;
 
-const scoreEl = document.getElementById("score");
-const livesEl = document.getElementById("lives");
-const startOverlay = document.getElementById("start-overlay");
-const startBtn = document.getElementById("start-btn");
-const gameOverOverlay = document.getElementById("game-over-overlay");
-const finalScoreEl = document.getElementById("final-score");
-const restartBtn = document.getElementById("restart-btn");
+  let isPlaying = false;
+  let score = 0;
+  let lives = 3;
+  let animationFrameId = null;
+  let lastSpawnTime = 0;
+  const spawnInterval = 800; // Milliseconds between items
 
-const BASKET_WIDTH = 70;
-const BASKET_HEIGHT = 18;
-const BASKET_SPEED = 6;
-const ITEM_SIZE = 28;
-const SPAWN_INTERVAL_MS = 800;
-const BOMB_CHANCE = 0.2;
+  // Basket State
+  const basket = {
+    width: 80,
+    height: 18,
+    x: CANVAS_WIDTH / 2 - 40,
+    y: CANVAS_HEIGHT - 30,
+    speed: 7
+  };
 
-let basket, items, score, lives, running, keys, lastSpawn, animationId;
+  // Keyboard Controls State
+  const keys = {
+    left: false,
+    right: false
+  };
 
-function resetState() {
-  basket = { x: canvas.width / 2 - BASKET_WIDTH / 2, y: canvas.height - BASKET_HEIGHT - 10 };
-  items = [];
-  score = 0;
-  lives = 3;
-  running = false;
-  keys = {};
-  lastSpawn = 0;
-  updateHud();
-}
+  // Falling Items Array (Coins & Bombs)
+  let items = [];
 
-function updateHud() {
-  scoreEl.textContent = score;
-  livesEl.textContent = lives;
-}
-
-function spawnItem() {
-  const isBomb = Math.random() < BOMB_CHANCE;
-  items.push({
-    x: Math.random() * (canvas.width - ITEM_SIZE),
-    y: -ITEM_SIZE,
-    size: ITEM_SIZE,
-    speed: 2 + Math.random() * 1.5,
-    type: isBomb ? "bomb" : "coin",
+  // FIXED: Keyboard Listeners (Corrected keys.right assignment)
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+      keys.left = true;
+    }
+    if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+      keys.right = true; // Fixed: was incorrectly set to false
+    }
   });
-}
 
-// Should return true when the basket and the falling item's boxes overlap.
-function isColliding(basketBox, item) {
-  return (
-    item.x > basketBox.x + BASKET_WIDTH &&
-    item.x + item.size < basketBox.x &&
-    item.y + item.size > basketBox.y
-  );
-}
+  window.addEventListener("keyup", (e) => {
+    if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+      keys.left = false;
+    }
+    if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+      keys.right = false;
+    }
+  });
 
-function update(timestamp) {
-  if (!running) return;
+  // Touch & Mouse Support
+  canvas.addEventListener("mousemove", (e) => {
+    if (!isPlaying) return;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    basket.x = mouseX - basket.width / 2;
+    clampBasketBounds();
+  });
 
-  if (timestamp - lastSpawn > SPAWN_INTERVAL_MS) {
-    spawnItem();
-    lastSpawn = timestamp;
+  startBtn.addEventListener("click", startGame);
+  restartBtn.addEventListener("click", startGame);
+
+  function startGame() {
+    score = 0;
+    lives = 3;
+    items = [];
+    scoreEl.textContent = score;
+    livesEl.textContent = lives;
+    statusEl.textContent = "Catch the coins, avoid the bombs!";
+
+    basket.x = CANVAS_WIDTH / 2 - basket.width / 2;
+
+    startOverlay.hidden = true;
+    gameOverOverlay.hidden = true;
+    isPlaying = true;
+    lastSpawnTime = performance.now();
+
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    gameLoop(performance.now());
   }
 
-  if (keys.ArrowLeft) basket.x -= BASKET_SPEED;
-  if (keys.ArrowRight) basket.x += BASKET_SPEED;
+  function gameOver() {
+    isPlaying = false;
+    finalScoreEl.textContent = score;
+    gameOverOverlay.hidden = false;
+    statusEl.textContent = "Game Over! Better luck next time.";
+  }
 
-  for (let i = items.length - 1; i >= 0; i--) {
-    const item = items[i];
-    item.y += item.speed;
+  // Strict Boundary Enforcement
+  function clampBasketBounds() {
+    if (basket.x < 0) {
+      basket.x = 0;
+    }
+    if (basket.x + basket.width > CANVAS_WIDTH) {
+      basket.x = CANVAS_WIDTH - basket.width;
+    }
+  }
 
-    if (isColliding(basket, item)) {
-      items.splice(i, 1);
+  function updateBasket() {
+    if (keys.left) basket.x -= basket.speed;
+    if (keys.right) basket.x += basket.speed;
+    clampBasketBounds();
+  }
+
+  function spawnItem() {
+    const isBomb = Math.random() < 0.25; // 25% chance for a bomb
+    const radius = 16;
+    items.push({
+      x: Math.random() * (CANVAS_WIDTH - radius * 2) + radius,
+      y: -radius,
+      radius: radius,
+      speed: 2.5 + Math.random() * 2,
+      type: isBomb ? "bomb" : "coin"
+    });
+  }
+
+  // Axis-Aligned Bounding Box (AABB) + Circle Collision
+  function checkCollision(item, basket) {
+    const closestX = Math.max(basket.x, Math.min(item.x, basket.x + basket.width));
+    const closestY = Math.max(basket.y, Math.min(item.y, basket.y + basket.height));
+
+    const distanceX = item.x - closestX;
+    const distanceY = item.y - closestY;
+
+    return (distanceX * distanceX + distanceY * distanceY) < (item.radius * item.radius);
+  }
+
+  function updateItems(currentTime) {
+    if (currentTime - lastSpawnTime > spawnInterval) {
+      spawnItem();
+      lastSpawnTime = currentTime;
+    }
+
+    for (let i = items.length - 1; i >= 0; i--) {
+      const item = items[i];
+      item.y += item.speed;
+
+      // Handle Catch / Collision with Basket
+      if (checkCollision(item, basket)) {
+        if (item.type === "coin") {
+          score += 10;
+          scoreEl.textContent = score;
+        } else if (item.type === "bomb") {
+          lives -= 1;
+          livesEl.textContent = lives;
+          if (lives <= 0) {
+            gameOver();
+            return;
+          }
+        }
+        items.splice(i, 1);
+        continue;
+      }
+
+      // Remove item if off the bottom of the canvas
+      if (item.y - item.radius > CANVAS_HEIGHT) {
+        items.splice(i, 1);
+      }
+    }
+  }
+
+  // Render Routines
+  function drawBasket() {
+    ctx.fillStyle = "#8B4513";
+    ctx.beginPath();
+    ctx.roundRect(basket.x, basket.y, basket.width, basket.height, 6);
+    ctx.fill();
+
+    ctx.fillStyle = "#A0522D";
+    ctx.fillRect(basket.x - 2, basket.y, basket.width + 4, 4);
+  }
+
+  function drawItems() {
+    items.forEach((item) => {
+      ctx.save();
+      ctx.translate(item.x, item.y);
+
       if (item.type === "coin") {
-        score += 10;
+        ctx.fillStyle = "#FFD700";
+        ctx.beginPath();
+        ctx.arc(0, 0, item.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = "#DAA520";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = "#B8860B";
+        ctx.font = "bold 14px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("🪙", 0, 1);
       } else {
-        lives -= 1;
-        alert("Ouch! You hit a bomb.");
-      }
-      updateHud();
-      if (lives <= 0) {
-        endGame();
-        return;
-      }
-      continue;
-    }
+        ctx.fillStyle = "#222222";
+        ctx.beginPath();
+        ctx.arc(0, 0, item.radius, 0, Math.PI * 2);
+        ctx.fill();
 
-    if (item.y > canvas.height) {
-      items.splice(i, 1);
-    }
+        ctx.fillStyle = "#FF4500";
+        ctx.font = "bold 14px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("💣", 0, 1);
+      }
+
+      ctx.restore();
+    });
   }
 
-  draw();
-  animationId = requestAnimationFrame(update);
-}
-
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#f7931a";
-  ctx.fillRect(basket.x, basket.y, BASKET_WIDTH, BASKET_HEIGHT);
-
-  ctx.font = `${ITEM_SIZE}px serif`;
-  for (const item of items) {
-    ctx.fillText(item.type === "coin" ? "🪙" : "💣", item.x, item.y + item.size);
+  function render() {
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    drawBasket();
+    drawItems();
   }
-}
 
-function endGame() {
-  running = false;
-  cancelAnimationFrame(animationId);
-  finalScoreEl.textContent = score;
-  gameOverOverlay.hidden = false;
-}
+  function gameLoop(timestamp) {
+    if (!isPlaying) return;
 
-function startGame() {
-  resetState();
-  running = true;
-  startOverlay.hidden = true;
-  gameOverOverlay.hidden = true;
-  lastSpawn = performance.now();
-  animationId = requestAnimationFrame(update);
-}
+    updateBasket();
+    updateItems(timestamp);
+    render();
 
-window.addEventListener("keydown", (e) => {
-  keys[e.key] = true;
+    animationFrameId = requestAnimationFrame(gameLoop);
+  }
 });
-window.addEventListener("keyup", (e) => {
-  keys[e.key] = false;
-});
-
-startBtn.addEventListener("click", startGame);
-restartBtn.addEventListener("click", startGame);
-
-resetState();
-draw();
