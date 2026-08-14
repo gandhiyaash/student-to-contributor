@@ -107,6 +107,7 @@ Once CI passes and the PR is approved, a maintainer merges it. Congratulations â
 You can run the same checks CI runs, before you even push:
 
 ```bash
+node test/app.test.js
 node .github/scripts/check-js-syntax.js
 node .github/scripts/check-html.js
 node .github/scripts/check-markdown.js
