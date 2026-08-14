@@ -1,6 +1,6 @@
 # Your Full Name
 
-GitHub: Sairaj-24
+GitHub: @Sairaj-24
 
 ## What I learned
 
