@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check JavaScript syntax
         run: node .github/scripts/check-js-syntax.js
+      - name: Run unit tests
+        run: node test/app.test.js
 
   html-syntax:
     runs-on: ubuntu-latest
