@@ -92,9 +92,6 @@ function update(timestamp) {
     basket.x = Math.max(0, Math.min(canvas.width - BASKET_WIDTH, basket.x));
   }
 
-  // Keep basket within canvas boundaries
-  basket.x = Math.max(0, Math.min(basket.x, canvas.width - BASKET_WIDTH));
-
   for (let i = items.length - 1; i >= 0; i--) {
     const item = items[i];
     item.y += item.speed;
@@ -106,8 +103,8 @@ function update(timestamp) {
         announceStatus(`Coin caught! Score: ${score}.`);
       } else {
         lives -= 1;
-        hitFlashUntil = timestamp + 350;
-        announceStatus(`Bomb hit! ${lives} ${lives === 1 ? "life" : "lives"} remaining.`);
+        hitFlashUntil = timestamp + 400;
+        announceStatus(`Ouch! Bomb hit! ${lives} ${lives === 1 ? "life" : "lives"} remaining.`);
       }
       updateHud();
       if (lives <= 0) {
