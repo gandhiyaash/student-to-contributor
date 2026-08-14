@@ -38,7 +38,9 @@
 
 ## After workshop
 
-- [ ] Merge suitable student contributions (don't feel obligated to merge everything — explain why for anything you don't)
+- [ ] CI is not a merge queue — the exercise is complete for anyone with a green check on their PR, whether or not it ever merges. Merging isn't the goal here; don't feel obligated to review/merge everything (or anything).
+- [ ] Reset `main` and `bug/broken-restart-button` back to the pre-workshop broken state for the next cohort (see the "reset repository to pre-workshop state" commit for the pattern)
+- [ ] Add the session's real contributors to `CONTRIBUTORS.md` (pull the list from `gh pr list --state all`, not commit history — see the commit that first added this file for the exact approach)
 - [ ] Thank contributors, ideally by name, in a closing comment or follow-up message
 - [ ] Point students toward real open-source projects with `good first issue` labels to try next
 - [ ] Encourage everyone to make one more contribution within the week, while the workflow is still fresh

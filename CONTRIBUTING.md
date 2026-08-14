@@ -94,13 +94,17 @@ On GitHub, open a PR from your fork's branch into the original repository's `mai
 
 Every PR automatically runs [`.github/workflows/validate.yml`](.github/workflows/validate.yml) — JS/HTML/Markdown checks and (if you touched it) contributors-table validation. If it fails, click "Details" on the failing check, read the error, fix it locally, and push again (see [`docs/troubleshooting.md`](docs/troubleshooting.md)).
 
-## 9. Respond to review
+## 9. Respond to review, if you get one
 
-A maintainer (or another student, during the workshop) will review your PR. Expect comments or requested changes — this is normal, not a rejection. Push additional commits to the same branch to address feedback; they'll appear automatically on the same PR.
+During a live-facilitated workshop, a maintainer or another student will likely leave review comments on your PR — expect requested changes, and treat that as normal, not a rejection. Push additional commits to the same branch to address feedback; they'll appear automatically on the same PR.
 
-## 10. Merge
+Outside a live session, your PR may not get reviewed at all, and that's fine — CI passing is what confirms your change actually works.
 
-Once CI passes and the PR is approved, a maintainer merges it. Congratulations — you're now a contributor.
+## 10. CI passing is the finish line
+
+Once CI is green on your PR, you've done it — you've completed a real open-source contribution workflow, fork to Pull Request, exactly like every real project uses. That's the practice goal, and it's achieved whether or not the PR ever gets merged.
+
+This repository exists for practice, not as an actively maintained project — nobody is obligated to review or merge your PR, and it may just sit there, open, indefinitely. That's fine and expected. If a maintainer does review and merge it, that's a bonus, not the point.
 
 ## Running validation locally (optional)
 

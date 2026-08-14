@@ -32,6 +32,8 @@ Merge
 
 **You never get write access to the original repository, and you don't need it.** Nobody does — not even experienced contributors on real open-source projects. You work entirely in your own copy, and a Pull Request is how you *propose* your change back.
 
+That diagram shows the general shape of open source — real projects do end in a merge. **This particular repository is a practice sandbox, though**: the goal is completing the workflow and seeing CI pass, not getting merged. See Step 10 below.
+
 ---
 
 ## Step 1 — Fork
@@ -129,7 +131,7 @@ GitHub will show a banner on your fork's page: **"Compare & pull request."** Cli
 YOUR FORK → YOUR BRANCH → PULL REQUEST → gandhiyaash/student-to-contributor
 ```
 
-That's it — CI runs automatically on your PR, a maintainer reviews it, and once it's approved it gets merged into the original repository. Your fork and your local clone are untouched by that merge; you keep them for your next contribution.
+That's it — CI runs automatically on your PR. **A green check is the actual finish line here.** This repository exists for practicing the workflow, not as a live-maintained project, so your PR may or may not get reviewed or merged — that's not the point. You've already done the real thing: forked, branched, committed, pushed, and opened a Pull Request the exact way every open-source contribution works. Your fork and your local clone are yours to keep for the next thing you want to practice.
 
 ## If you get stuck
 

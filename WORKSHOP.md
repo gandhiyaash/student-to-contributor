@@ -449,25 +449,25 @@ None needed — this is a short demonstration block.
 
 ---
 
-## 145–150 min — Merge and Close
+## 145–150 min — Close
 
 🎤 **SAY**
-"Let's merge at least one real student contribution, live, right now."
+"Look at what's actually in front of you: a green check mark on a Pull Request you opened. That's the whole exercise. That's what it feels like to contribute to open source — you don't need me to merge anything for that to be true."
 
 🖥️ **SHOW**
-Merge the reviewed PR from the Review Moment (or another ready one). Show the merge commit landing in `main`'s history.
+Pull up a few students' PRs with passing CI. That's the artifact that matters — not whether it's merged.
 
 🎤 **SAY** (closing line)
-"You didn't learn open source by watching someone contribute. You learned it by contributing."
+"You didn't learn open source by watching someone contribute. You learned it by contributing — and you just did, whether or not anyone ever clicks merge."
 
 👨‍🎓 **STUDENTS DO**
-Anyone who hasn't merged yet: keep pushing fixes after the session — CI and review still work the same way with no facilitator in the room. Point them back to `docs/troubleshooting.md` and `OFFLINE.md` for later, unassisted work.
+Nothing required — the exercise is already complete for anyone with a passing CI check. Anyone who wants to keep iterating can keep pushing fixes after the session; point them at `docs/troubleshooting.md` and `OFFLINE.md` for later, unassisted work.
 
 🧠 **TAKEAWAY**
-The workflow you just practiced is identical to contributing to any real open-source project.
+CI passing on a real Pull Request is the practice goal. Merging (if it happens at all) is a bonus on top, not the finish line.
 
 ✅ **CHECKPOINT**
-Count merged PRs and opened-but-unmerged PRs before ending — merged ones are done; open ones are homework using the same repo.
+Count PRs with a passing CI check before ending — that's your real completion metric, not merge count.
 
 ---
 
