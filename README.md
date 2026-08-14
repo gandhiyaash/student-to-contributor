@@ -67,6 +67,8 @@ No internet at the venue? [`OFFLINE.md`](OFFLINE.md) has you covered — everyth
 
 No Claude Code / AI access? Not required. Every task above is fully completable without it.
 
+See [`CONTRIBUTORS.md`](CONTRIBUTORS.md) for everyone who's opened a Pull Request here.
+
 ---
 
 **Repository:** [github.com/gandhiyaash/student-to-contributor](https://github.com/gandhiyaash/student-to-contributor) · **Setup:** [`SETUP.md`](SETUP.md) · **Quick start:** [`STUDENT_QUICKSTART.md`](STUDENT_QUICKSTART.md) · **Workshop script:** [`WORKSHOP.md`](WORKSHOP.md) · **Beginner task:** [`tasks/beginner.md`](tasks/beginner.md) · **Contributing:** [`CONTRIBUTING.md`](CONTRIBUTING.md)
