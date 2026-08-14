@@ -153,6 +153,7 @@ function endGame() {
   if (finalScoreEl) finalScoreEl.textContent = score;
   if (gameOverOverlay) gameOverOverlay.hidden = false;
   announceStatus(`Game Over! Final score: ${score}.`);
+  if (restartBtn) restartBtn.focus();
 }
 
 function startGame() {
@@ -162,6 +163,7 @@ function startGame() {
   if (startOverlay) startOverlay.hidden = true;
   if (gameOverOverlay) gameOverOverlay.hidden = true;
   announceStatus("Game started! Catch coins and avoid bombs.");
+  if (canvas) canvas.focus();
   lastSpawn = performance.now();
   animationId = requestAnimationFrame(update);
 }
