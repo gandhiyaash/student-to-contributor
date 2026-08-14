@@ -15,7 +15,7 @@ and collaborating around Git
 
 Git is a program that runs **locally on your laptop**. It tracks changes to files in a folder (a "repository"). You could use Git forever and never touch the internet — every command in `docs/git-walkthrough.md` runs entirely offline.
 
-GitHub is a **website** that hosts copies of Git repositories, and adds collaboration features on top: Issues, Pull Requests, code review, CI, and a social layer (stars, followers, profiles).
+GitHub is a **website** that hosts copies of Git repositories and adds collaboration features on top: Issues, Pull Requests, code review, CI, and social features like stars and profiles.
 
 ```text
 Your Computer
