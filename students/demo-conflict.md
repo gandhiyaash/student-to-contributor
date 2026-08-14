@@ -1,6 +1,6 @@
 # Demo Conflict
 
-GitHub: @dryrun-tester
+GitHub: @demo-conflict-fixed
 
 ## What I learned
 
