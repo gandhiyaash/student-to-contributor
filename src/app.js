@@ -21,6 +21,10 @@ const SPAWN_INTERVAL_MS = 800;
 const BOMB_CHANCE = 0.2;
 
 let basket, items, score, lives, running, keys, lastSpawn, animationId, hitFlashUntil;
+let lastAnnounceText = "";
+let gameStartCount = 0;
+let startPhraseIndex = 0;
+let gameOverPhraseIndex = 0;
 
 function resetState() {
   basket = { x: canvas ? canvas.width / 2 - BASKET_WIDTH / 2 : 205, y: canvas ? canvas.height - BASKET_HEIGHT - 10 : 332 };
@@ -35,9 +39,37 @@ function resetState() {
 }
 
 function announceStatus(msg) {
-  if (statusEl) {
-    statusEl.textContent = msg;
-  }
+  if (!statusEl || msg === lastAnnounceText) return;
+  statusEl.textContent = msg;
+  lastAnnounceText = msg;
+}
+
+function gameStartMessage(round) {
+  const phrases = [
+    `Game started! Catch coins and avoid bombs. Round ${round}.`,
+    `New round! Catch coins and avoid bombs. Round ${round}.`,
+    `Let's go! Catch coins and avoid bombs. Round ${round}.`,
+  ];
+  startPhraseIndex = (startPhraseIndex + 1) % phrases.length;
+  return phrases[startPhraseIndex];
+}
+
+function coinMessage(score) {
+  return `Coin caught! Score: ${score}.`;
+}
+
+function bombMessage(lives) {
+  return `Bomb hit! ${lives} ${lives === 1 ? "life" : "lives"} remaining.`;
+}
+
+function gameOverMessage(score) {
+  const phrases = [
+    `Game Over! Final score: ${score}.`,
+    `Game over! You scored ${score} points.`,
+    `That's a wrap! Final score: ${score}.`,
+  ];
+  gameOverPhraseIndex = (gameOverPhraseIndex + 1) % phrases.length;
+  return phrases[gameOverPhraseIndex];
 }
 
 function updateHud() {
@@ -103,15 +135,17 @@ function update(timestamp) {
       items.splice(i, 1);
       if (item.type === "coin") {
         score += 10;
-        announceStatus(`Coin caught! Score: ${score}.`);
+        announceStatus(coinMessage(score));
       } else {
         lives -= 1;
         hitFlashUntil = timestamp + 350;
-        announceStatus(`Bomb hit! ${lives} ${lives === 1 ? "life" : "lives"} remaining.`);
+        if (lives > 0) {
+          announceStatus(bombMessage(lives));
+        }
       }
       updateHud();
       if (lives <= 0) {
-        endGame();
+        endGame(true);
         return;
       }
       continue;
@@ -147,12 +181,16 @@ function draw(timestamp) {
   }
 }
 
-function endGame() {
+function endGame(fromBomb = false) {
   running = false;
   if (animationId) cancelAnimationFrame(animationId);
   if (finalScoreEl) finalScoreEl.textContent = score;
   if (gameOverOverlay) gameOverOverlay.hidden = false;
-  announceStatus(`Game Over! Final score: ${score}.`);
+  if (fromBomb) {
+    announceStatus(`Bomb hit! Game Over! Final score: ${score}.`);
+  } else {
+    announceStatus(gameOverMessage(score));
+  }
 }
 
 function startGame() {
@@ -161,7 +199,8 @@ function startGame() {
   running = true;
   if (startOverlay) startOverlay.hidden = true;
   if (gameOverOverlay) gameOverOverlay.hidden = true;
-  announceStatus("Game started! Catch coins and avoid bombs.");
+  gameStartCount += 1;
+  announceStatus(gameStartMessage(gameStartCount));
   lastSpawn = performance.now();
   animationId = requestAnimationFrame(update);
 }
