@@ -40,7 +40,7 @@ Person
 
 That's genuinely the core idea. Everything else (mining, wallets, the Lightning Network) is implementation detail on top of that idea.
 
-## Addresses (what this app actually uses)
+## Addresses (and what this app uses as a theme)
 
 A Bitcoin address (or a Lightning address, which looks like an email) is just an identifier you share so someone can send you value — similar in spirit to a bank account number, except anyone can generate one instantly, for free, without asking permission from anyone.
 
