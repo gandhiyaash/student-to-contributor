@@ -2,6 +2,7 @@
 // Not connected to the real Bitcoin network. Coins are just the theme.
 
 const canvas = document.getElementById("game-canvas");
+canvas.style.touchAction = "none";
 const ctx = canvas.getContext("2d");
 
 const scoreEl = document.getElementById("score");
@@ -130,6 +131,35 @@ window.addEventListener("keydown", (e) => {
 });
 window.addEventListener("keyup", (e) => {
   keys[e.key] = false;
+});
+function moveBasketToPointer(clientX) {
+  if (!running) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const canvasX = (clientX - rect.left) * scaleX;
+
+  basket.x = canvasX - BASKET_WIDTH / 2;
+
+  basket.x = Math.max(
+    0,
+    Math.min(canvas.width - BASKET_WIDTH, basket.x)
+  );
+}
+
+canvas.addEventListener("pointerdown", (e) => {
+  canvas.setPointerCapture(e.pointerId);
+  moveBasketToPointer(e.clientX);
+});
+
+canvas.addEventListener("pointermove", (e) => {
+  if (e.buttons) {
+    moveBasketToPointer(e.clientX);
+  }
+});
+
+canvas.addEventListener("pointerup", (e) => {
+  canvas.releasePointerCapture(e.pointerId);
 });
 
 startBtn.addEventListener("click", startGame);
