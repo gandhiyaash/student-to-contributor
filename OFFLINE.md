@@ -18,7 +18,7 @@ Short version: keep working. Git itself needs no internet — only `git push`/`g
 ## What to do
 
 1. Keep working locally: pick your task, branch, edit, commit — all of this works offline exactly as documented.
-2. Read [`offline/README.md`](offline/README.md) — it walks through the same "Add a Copy Address Button" story used in the live demo, as static examples, in the same order the live version happens.
+2. Read [`offline/README.md`](offline/README.md) — it walks through the same "Fix the Broken Catch Mechanic" story used in the live demo, as static examples, in the same order the live version happens.
 3. When your connection returns, `git push -u origin <your-branch-name>` sends everything you committed up to GitHub at once, and you rejoin the normal workflow — open your PR, let CI run, get reviewed.
 
 Nothing about the offline path is a "lesser" version of the workshop — it's the same workflow, same files, same issue, just with the GitHub-dependent steps read as examples instead of run live. See [`offline/README.md`](offline/README.md) to start.

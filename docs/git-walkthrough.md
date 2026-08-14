@@ -26,7 +26,7 @@ You'll see a line-by-line diff: lines starting with `-` were removed, `+` were a
 
 ```bash
 git add .
-git commit -m "feat: add copy address button"
+git commit -m "fix: correct basket/item collision detection"
 git log --oneline
 ```
 
@@ -42,7 +42,7 @@ Think of it as three rooms: edit in the working directory, pack your bag in stag
 
 ```bash
 git branch
-git switch -c feature/copy-address
+git switch -c fix/catch-mechanic
 ```
 
 `git branch` lists existing branches. `git switch -c <name>` creates a new branch and moves you onto it.
@@ -50,10 +50,10 @@ git switch -c feature/copy-address
 ```text
 main
  |
- └── feature/copy-address
+ └── fix/catch-mechanic
 ```
 
-Your new branch starts as an exact copy of `main` at this moment. Any commits you make now happen on `feature/copy-address` — `main` is untouched until you merge. This is what lets 80 students work on the same repository at the same time without stepping on each other: everyone works on their own branch.
+Your new branch starts as an exact copy of `main` at this moment. Any commits you make now happen on `fix/catch-mechanic` — `main` is untouched until you merge. This is what lets 80 students work on the same repository at the same time without stepping on each other: everyone works on their own branch.
 
 ## Recap
 

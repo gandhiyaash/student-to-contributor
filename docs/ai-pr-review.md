@@ -26,7 +26,7 @@ After a PR is open, AI can act as a first-pass reviewer — a fast second opinio
 3. **Explain the decision.** In the PR thread or commit message, briefly note why you accepted or rejected a piece of feedback. This is what a real reviewer does, and it makes your reasoning visible to the next person.
 4. **Implement appropriate fixes.** Only the ones you decided were valid.
 5. **Test.** Re-run whatever you tested before, plus anything the fix touches.
-6. **Commit.** A separate commit for review fixes (e.g. `fix: handle empty address per review feedback`) keeps history readable.
+6. **Commit.** A separate commit for review fixes (e.g. `fix: clamp basket position per review feedback`) keeps history readable.
 7. **Push.** This updates the existing PR automatically — no need to open a new one.
 
 ## Teaching point

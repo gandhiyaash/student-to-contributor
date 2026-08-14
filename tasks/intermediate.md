@@ -1,58 +1,57 @@
 # Intermediate Track
 
-Goal: make a real, visible change to the application or its docs. Pick **one** issue below.
+Goal: make a real, visible change to the game or its docs. Pick **one** issue below.
 
-## Issue 4 — Add the Copy Address Button
+## Issue 4 — Fix the Broken Catch Mechanic
 
-This is the same issue used in the live AI demo (see [`docs/ai-live-demo.md`](../docs/ai-live-demo.md)). If the facilitator already implemented it live, pick a different issue — or improve on the implementation (e.g. keyboard accessibility, better feedback timing).
+This is the same issue used in the live AI demo (see [`docs/ai-live-demo.md`](../docs/ai-live-demo.md)). If the facilitator already fixed it live, pick a different issue — or find and fix a follow-up bug it exposes.
 
-**Objective:** Add a button that copies the tip card's Bitcoin address to the clipboard, with visible success feedback.
+**Objective:** The game currently doesn't work at all — coins and bombs fall right through the basket. Fix the collision detection so the game is actually playable.
 
-**Why it matters:** Currently users must manually select and copy the address — easy to get wrong, bad UX.
+**Why it matters:** Right now the entire game is unplayable. This is about as central as a bug gets.
 
 **Steps:**
-1. `git switch -c feature/copy-address-<your-username>`
-2. Edit [`src/index.html`](../src/index.html), [`src/app.js`](../src/app.js), and [`src/style.css`](../src/style.css) as needed.
-3. Use `navigator.clipboard.writeText()`.
-4. Show a temporary "Copied!" message or icon change.
-5. Handle the case where the address field is empty (button should be disabled or do nothing gracefully).
-6. Test manually: normal address, empty address, repeated clicks.
-7. Commit, push, open a PR.
+1. `git switch -c fix/catch-mechanic-<your-username>`
+2. Open [`src/app.js`](../src/app.js) and find `isColliding(basketBox, item)`.
+3. Read the three conditions carefully — are they even logically possible to all be true at once?
+4. Fix the function so it correctly detects when the basket's box and the falling item's box overlap.
+5. Test: start the game, catch several coins (score should go up by 10 each), let a bomb hit you (a life should be lost).
+6. Commit, push, open a PR.
 
 **Success criteria:**
-- Clicking "Copy address" copies the exact address text.
-- User sees success feedback.
-- No error when the address is empty.
+- Catching a coin increases score.
+- Catching a bomb decreases lives.
+- Coins/bombs that miss the basket still disappear normally when they fall off-screen.
 - No unrelated files changed.
 
 **Hints:** See `docs/claude-code-prompts.md` for a ready-made "implement a feature" prompt if you have AI access.
 
 ---
 
-## Issue 5 — Improve mobile layout
+## Issue 5 — Add mobile touch controls
 
-**Objective:** The tip card and form should look good on a 375px-wide screen.
+**Objective:** Right now only ← → arrow keys move the basket. On a phone, there's no way to play at all.
 
 **Steps:**
-1. Branch: `feature/mobile-layout-<your-username>`.
-2. Open `src/index.html` in a browser and resize to mobile width (or use dev tools device mode).
-3. Fix any overflow, cramped spacing, or tiny tap targets in `src/style.css`.
-4. Test at 375px and 768px widths.
+1. Branch: `feature/touch-controls-<your-username>`.
+2. In `src/app.js`, add touch (and ideally mouse-drag) support so dragging across the canvas moves the basket.
+3. Keep the existing keyboard controls working.
+4. Test using your browser's device toolbar / responsive mode (or a real phone if you have one).
 
-**Success criteria:** No horizontal scroll, buttons are easily tappable (44px+ height), text doesn't overflow its container.
+**Success criteria:** Basket is fully controllable by touch, arrow keys still work, no lag or jumpiness.
 
-**Common mistakes:** Fixing it only for one screen size; breaking desktop layout while fixing mobile.
+**Common mistakes:** Forgetting `touchmove` needs `event.preventDefault()` in some browsers to avoid the page scrolling while you drag; breaking keyboard controls while adding touch.
 
 ---
 
-## Issue 6 — Improve empty-address feedback
+## Issue 6 — Replace bomb-hit alert with inline feedback
 
-**Objective:** Currently, submitting an empty address just shows a plain `alert()`. Replace it with inline, friendlier feedback.
+**Objective:** Every bomb hit currently freezes the game with a blocking `alert()`. Replace it with feedback that doesn't interrupt play.
 
 **Steps:**
-1. Branch: `feature/empty-address-feedback-<your-username>`.
-2. In `src/app.js`, replace the `alert()` call with an inline error message shown near the address field.
-3. Style the error in `src/style.css` (e.g. red border, small text below the input).
-4. Clear the error once the user starts typing a valid address.
+1. Branch: `feature/bomb-feedback-<your-username>`.
+2. In `src/app.js`, remove the `alert("Ouch! You hit a bomb.")` call.
+3. Add a brief, noticeable visual cue instead — e.g. flash the canvas or basket red for ~300–500ms — using `src/style.css` and a small amount of state/timing logic in `app.js`.
+4. Test: get hit by several bombs in a row, confirm the game never pauses and feedback is clearly visible each time.
 
-**Success criteria:** No `alert()` popups; error is visible, styled, and dismisses correctly.
+**Success criteria:** No `alert()` calls remain; feedback is visible but brief; the game loop never stops.

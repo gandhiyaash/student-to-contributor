@@ -1,25 +1,26 @@
 # Example: What a Real Pull Request Looks Like
 
-If you were online, `git push -u origin feature/copy-address` followed by opening a PR on GitHub would produce something like this (using the [PR template](../.github/pull_request_template.md)):
+If you were online, `git push -u origin fix/catch-mechanic` followed by opening a PR on GitHub would produce something like this (using the [PR template](../.github/pull_request_template.md)):
 
 ---
 
-**Title:** feat: add copy address button
+**Title:** fix: correct basket/item collision detection
 
 **What changed?**
-Added a "Copy address" button to the tip card that copies the displayed Bitcoin/Lightning address to the clipboard, with a "Copied!" success message that clears after 2 seconds.
+Fixed `isColliding` in `src/app.js` — the x-axis check used two conditions that could never both be true, so the game could never register a catch. Coins and bombs fell straight through the basket with no effect. Corrected it to a standard AABB overlap check.
 
 **Why did you make this change?**
-Closes the "Add a Copy Address Button" issue — users previously had to manually select and copy the address text, which is error-prone on mobile.
+Closes the "Fix the Broken Catch Mechanic" issue — the game was completely unplayable; score and lives never changed no matter what the player did.
 
 **How did you test it?**
-- Generated a card with a normal address, clicked copy, pasted elsewhere, confirmed exact match.
-- Tested with an empty address (button doesn't error, no-ops safely).
-- Clicked rapidly multiple times — no stacked feedback.
-- Tested on a narrow (375px) viewport.
+- Caught several coins, confirmed score increased by 10 each time.
+- Took a bomb hit, confirmed a life was lost and feedback appeared.
+- Let several coins/bombs fall past the basket untouched, confirmed no score change and no errors.
+- Lost all 3 lives, confirmed the Game Over screen showed the correct final score.
+- Clicked "Play Again," confirmed the game reset and played normally again.
 
 **Screenshots if relevant:**
-*(a before/after screenshot of the tip card would go here)*
+*(a short clip or before/after screenshot of a successful catch would go here)*
 
 **Checklist:**
 - [x] I tested my changes.

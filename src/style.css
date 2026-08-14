@@ -6,6 +6,7 @@
   --muted: #9aa0aa;
   --border: #2a2e37;
   --success: #2ecc71;
+  --danger: #e74c3c;
 }
 
 * {
@@ -21,7 +22,7 @@ body {
 }
 
 .container {
-  max-width: 480px;
+  max-width: 520px;
   margin: 0 auto;
   padding: 24px 16px 64px;
 }
@@ -50,33 +51,63 @@ body {
   margin-bottom: 16px;
 }
 
-label {
-  display: block;
-  margin: 12px 0 4px;
-  font-size: 0.85rem;
-  color: var(--muted);
+.hud {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  margin-bottom: 12px;
 }
 
-input,
-textarea {
+.hud strong {
+  color: var(--accent);
+}
+
+.game-wrap {
+  position: relative;
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: #0f1115;
-  color: var(--text);
-  font-size: 0.95rem;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
-textarea {
-  min-height: 70px;
-  resize: vertical;
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #0f1115;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(15, 17, 21, 0.92);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.overlay h2 {
+  margin: 0 0 8px;
+  color: var(--accent);
+}
+
+.overlay p {
+  color: var(--muted);
+  margin: 0 0 16px;
+  max-width: 320px;
 }
 
 button {
-  margin-top: 16px;
-  width: 100%;
-  padding: 12px;
+  padding: 12px 24px;
   border: none;
   border-radius: 8px;
   background: var(--accent);
@@ -90,29 +121,10 @@ button:hover {
   filter: brightness(1.05);
 }
 
-.tip-card {
-  border: 1px dashed var(--accent);
-  border-radius: 10px;
-  padding: 16px;
-}
-
-.tip-name {
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin: 0 0 8px;
-}
-
-.tip-address {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  word-break: break-all;
-  background: #0f1115;
-  padding: 8px;
-  border-radius: 6px;
-  margin: 0 0 8px;
-}
-
-.tip-message {
+.status {
+  min-height: 1.2em;
+  margin: 12px 0 0;
+  text-align: center;
   color: var(--muted);
-  font-style: italic;
-  margin: 0;
+  font-size: 0.85rem;
 }

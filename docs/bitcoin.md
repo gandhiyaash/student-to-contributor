@@ -44,7 +44,7 @@ That's genuinely the core idea. Everything else (mining, wallets, the Lightning 
 
 A Bitcoin address (or a Lightning address, which looks like an email) is just an identifier you share so someone can send you value — similar in spirit to a bank account number, except anyone can generate one instantly, for free, without asking permission from anyone.
 
-This workshop's Tip Jar app treats an address as **plain text** — it doesn't validate it against the real network, doesn't check a balance, and can't actually send or receive anything. It's a UI exercise, not a wallet.
+This workshop's Coin Catcher game doesn't use real addresses at all — coins are just the visual theme for something to catch. It's a game exercise, not a wallet, and never touches the real Bitcoin network.
 
 ## Why this matters for an open-source workshop
 

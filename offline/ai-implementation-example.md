@@ -1,63 +1,31 @@
 # Example: AI Implementation (Step 3 of the live demo)
 
 **Prompt used:**
-> Implement the approved plan. Keep the change minimal and focused on the issue. Do not modify unrelated files. After implementation: 1. List every file changed. 2. Explain what changed in each file. 3. Explain how I can test the feature.
+> Implement the approved plan. Keep the change minimal and focused on the issue. Do not modify unrelated files. After implementation: 1. List every file changed. 2. Explain what changed and why. 3. Explain how I can test the fix.
 
 **Example response:**
 
-> Implemented the approved plan. Three files changed:
+> Implemented the approved plan. One file changed:
 >
-> **1. `src/index.html`**
-> Replaced the placeholder comment inside `.tip-card` with:
-> ```html
-> <button id="copy-btn" type="button">Copy address</button>
-> <span id="copy-feedback" role="status"></span>
-> ```
->
-> **2. `src/app.js`**
-> Added, after the existing `generate-btn` handler:
+> **`src/app.js`**
+> Replaced the body of `isColliding` with a correct AABB overlap check:
 > ```js
-> const copyBtn = document.getElementById("copy-btn");
-> const copyFeedback = document.getElementById("copy-feedback");
->
-> copyBtn.addEventListener("click", async () => {
->   const address = tipAddress.textContent.trim();
->   if (!address) return;
->
->   try {
->     await navigator.clipboard.writeText(address);
->     copyFeedback.textContent = "Copied!";
->   } catch (err) {
->     copyFeedback.textContent = "Couldn't copy — please copy manually.";
->   }
->
->   setTimeout(() => { copyFeedback.textContent = ""; }, 2000);
-> });
-> ```
->
-> **3. `src/style.css`**
-> Added:
-> ```css
-> .copy-btn {
->   margin-top: 8px;
->   width: auto;
->   padding: 8px 14px;
->   font-size: 0.85rem;
-> }
->
-> .copy-feedback {
->   display: inline-block;
->   margin-left: 8px;
->   color: var(--success);
->   font-size: 0.85rem;
+> function isColliding(basketBox, item) {
+>   return (
+>     item.x < basketBox.x + BASKET_WIDTH &&
+>     item.x + item.size > basketBox.x &&
+>     item.y + item.size > basketBox.y &&
+>     item.y < basketBox.y + BASKET_HEIGHT
+>   );
 > }
 > ```
+> No other lines in the file were touched — the spawn logic, movement, scoring, and game-over flow were already correct and only needed a working `isColliding` to actually run.
 >
 > **How to test:**
-> 1. Open `src/index.html` in a browser.
-> 2. Fill in the form, click "Generate Tip Card."
-> 3. Click "Copy address" — a "Copied!" message should appear next to the button and clear after 2 seconds.
-> 4. Paste somewhere to confirm the clipboard content matches the displayed address exactly.
-> 5. Click rapidly several times — no stacked or broken feedback.
+> 1. Open `src/index.html` in a browser and click "Start Game."
+> 2. Move the basket under a falling coin — score should increase by 10 the moment they overlap.
+> 3. Let a bomb fall into the basket — a life should be lost and the hit feedback should appear.
+> 4. Deliberately miss several coins — confirm they disappear with no score change and no error.
+> 5. Lose all 3 lives — confirm the Game Over screen shows the correct final score.
 
 This is exactly the kind of diff you should expect to review by hand — see [`sample-diff.md`](sample-diff.md) for the actual line-by-line diff, and [`sample-review.md`](sample-review.md) for a review pass on it.

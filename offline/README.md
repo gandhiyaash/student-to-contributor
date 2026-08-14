@@ -33,7 +33,7 @@ Practice the full beginner task ([`../tasks/beginner.md`](../tasks/beginner.md),
 | See a real CI failure | [`sample-ci-failure.md`](sample-ci-failure.md) |
 | See a real CI success | [`sample-ci-success.md`](sample-ci-success.md) |
 
-Each file is a realistic transcript of what the live/online version produces, using the exact same "Add a Copy Address Button" issue used in the live demo. Read them in the order listed above — they tell one continuous story, start to finish.
+Each file is a realistic transcript of what the live/online version produces, using the exact same "Fix the Broken Catch Mechanic" issue used in the live demo. Read them in the order listed above — they tell one continuous story, start to finish.
 
 ## When your internet comes back
 

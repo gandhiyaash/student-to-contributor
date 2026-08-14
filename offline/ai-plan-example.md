@@ -1,26 +1,37 @@
 # Example: AI Plan (Step 2 of the live demo)
 
 **Prompt used:**
-> Based on your investigation, propose a minimal implementation plan for the "Add a Copy Address Button" issue. Do not modify any files yet. Explain: 1. Which files you would change. 2. What you would change. 3. How you would handle an empty address. 4. How you would test the feature. Keep the plan minimal and avoid unrelated changes.
+> Based on your investigation, propose a minimal implementation plan for the "Fix the Broken Catch Mechanic" issue. Do not modify any files yet. Explain: 1. Which files you would change. 2. What exactly is wrong with the current logic. 3. What the corrected logic should be. 4. How you would test the fix. Keep the plan minimal and avoid unrelated changes.
 
 **Example response:**
 
 > Here's a minimal plan — no files touched yet.
 >
 > **Files to change:**
-> 1. `src/index.html` — replace the placeholder comment with a `<button id="copy-btn">Copy address</button>` inside `.tip-card`, plus a small `<span id="copy-feedback">` for the success message.
-> 2. `src/app.js` — add a click handler on `#copy-btn` that calls `navigator.clipboard.writeText()` on the current address and toggles the feedback span.
-> 3. `src/style.css` — add styles for `.copy-btn` and `.copy-feedback` (success state), reusing existing color variables (`--accent`, `--success`).
+> 1. `src/app.js` — only the body of `isColliding`. Nothing else needs to change.
 >
-> **Handling an empty address:**
-> The button only becomes meaningful once a tip card exists (the result card is hidden until generated), so by construction the address is non-empty by the time the button is visible. As a defensive check, the click handler will still verify `address` is non-empty before calling `clipboard.writeText`, and no-op silently if not — matching the issue's "handle empty address gracefully" requirement.
+> **What's wrong:**
+> The x-axis check uses two conditions joined with `&&` that describe opposite sides of the basket ("item is right of the basket" AND "item is left of the basket"), which can never both be true. There's also no upper y-bound check, though that's secondary to the main bug.
+>
+> **Corrected logic:**
+> A standard axis-aligned bounding box (AABB) overlap check — true when the boxes overlap on *both* axes:
+> ```js
+> function isColliding(basketBox, item) {
+>   return (
+>     item.x < basketBox.x + BASKET_WIDTH &&
+>     item.x + item.size > basketBox.x &&
+>     item.y + item.size > basketBox.y &&
+>     item.y < basketBox.y + BASKET_HEIGHT
+>   );
+> }
+> ```
 >
 > **Testing:**
-> - Generate a card with a normal address, click copy, paste elsewhere, confirm exact match.
-> - Confirm the feedback message appears and clears after ~2 seconds.
-> - Click copy multiple times rapidly — feedback shouldn't stack or break.
-> - Try in a browser context where `navigator.clipboard` might be undefined — should fail without crashing the page.
+> - Start the game, position the basket under a falling coin, confirm score increases by exactly 10 on contact.
+> - Let a bomb fall into the basket, confirm a life is lost.
+> - Let a coin fall past the basket without overlapping, confirm no score change and no crash.
+> - Rapidly move the basket under multiple falling items, confirm each is only counted once.
 >
-> This plan touches only the three files above and adds no new dependencies.
+> This plan touches only `isColliding` inside `src/app.js` — no other files, no unrelated cleanup.
 
-**What a human should check before approving:** Does the plan actually stay inside "small and focused" per the issue? Does it avoid touching `students/` or `docs/`? Yes on both — that's what makes this plan approvable as-is.
+**What a human should check before approving:** Does the fix logic actually look like a correct AABB overlap check? Walk through one concrete example by hand (e.g. basket at x=100–170, item at x=120) before saying yes.

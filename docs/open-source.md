@@ -58,5 +58,5 @@ Every real open-source contribution — a one-line typo fix or a thousand-line f
 Open source runs on written communication with strangers. A few habits that matter more than people expect:
 
 - **Read before asking.** Check the README and CONTRIBUTING.md first — most questions are already answered there.
-- **Be specific in PRs.** "Fixed the bug" tells a reviewer nothing. "Copy button now checks for an empty address before calling clipboard.writeText" tells them what to verify.
+- **Be specific in PRs.** "Fixed the bug" tells a reviewer nothing. "isColliding now correctly checks both axes instead of two mutually-exclusive x conditions" tells them what to verify.
 - **Feedback on your code isn't feedback on you.** A maintainer requesting changes is normal, expected, and not a rejection.

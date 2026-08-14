@@ -3,68 +3,26 @@
 This is what `git diff` shows after the implementation in [`ai-implementation-example.md`](ai-implementation-example.md). Read it the way you'd read any diff: `-` lines removed, `+` lines added.
 
 ```diff
-diff --git a/src/index.html b/src/index.html
---- a/src/index.html
-+++ b/src/index.html
-@@ -32,7 +32,8 @@
-         <p class="tip-message" id="tip-message"></p>
--        <!-- TODO (Issue: Add a Copy Address Button): a "Copy address" button belongs here. -->
-+        <button id="copy-btn" type="button">Copy address</button>
-+        <span id="copy-feedback" role="status"></span>
-       </div>
-     </section>
-
 diff --git a/src/app.js b/src/app.js
 --- a/src/app.js
 +++ b/src/app.js
-@@ -22,3 +22,17 @@ generateBtn.addEventListener("click", () => {
-   // NOTE: There is currently no way to copy `address` without manual
-   // text selection. See Issue: "Add a Copy Address Button".
- });
-+
-+const copyBtn = document.getElementById("copy-btn");
-+const copyFeedback = document.getElementById("copy-feedback");
-+
-+copyBtn.addEventListener("click", async () => {
-+  const address = tipAddress.textContent.trim();
-+  if (!address) return;
-+
-+  try {
-+    await navigator.clipboard.writeText(address);
-+    copyFeedback.textContent = "Copied!";
-+  } catch (err) {
-+    copyFeedback.textContent = "Couldn't copy — please copy manually.";
-+  }
-+
-+  setTimeout(() => { copyFeedback.textContent = ""; }, 2000);
-+});
-
-diff --git a/src/style.css b/src/style.css
---- a/src/style.css
-+++ b/src/style.css
-@@ -95,3 +95,14 @@
- .tip-message {
-   color: var(--muted);
-   font-style: italic;
-   margin: 0;
+@@ -47,10 +47,11 @@
+ // Should return true when the basket and the falling item's boxes overlap.
+ function isColliding(basketBox, item) {
+   return (
+-    item.x > basketBox.x + BASKET_WIDTH &&
+-    item.x + item.size < basketBox.x &&
+-    item.y + item.size > basketBox.y
++    item.x < basketBox.x + BASKET_WIDTH &&
++    item.x + item.size > basketBox.x &&
++    item.y + item.size > basketBox.y &&
++    item.y < basketBox.y + BASKET_HEIGHT
+   );
  }
-+
-+.copy-btn {
-+  margin-top: 8px;
-+  width: auto;
-+  padding: 8px 14px;
-+  font-size: 0.85rem;
-+}
-+
-+.copy-feedback {
-+  display: inline-block;
-+  margin-left: 8px;
-+  color: var(--success);
-+  font-size: 0.85rem;
-+}
 ```
 
 **Explained per Step 4's prompt:**
-- `src/index.html`: what changed — placeholder comment replaced with a real button + feedback span; why — the plan called for the button to live inside `.tip-card`; behavior affected — the result card now renders two more interactive elements; verify manually — button appears only after a card is generated.
-- `src/app.js`: what changed — new click handler added, nothing existing removed; why — implements the actual copy behavior per the plan; behavior affected — clicking the new button calls the Clipboard API; verify manually — test with clipboard permissions both granted and blocked.
-- `src/style.css`: what changed — two new rules appended; why — style the new elements; behavior affected — purely visual, no existing rules touched; verify manually — check the button doesn't look cramped next to the message text.
+- **What changed:** the x-axis comparison operators were flipped (from describing "entirely right of" AND "entirely left of," which is impossible, to describing "starts before the basket's right edge" AND "ends after the basket's left edge," which is a real overlap check), and a missing upper y-bound condition was added.
+- **Why it changed:** the old logic could never return `true` for any position, so nothing was ever caught.
+- **Behavior affected:** catching coins and bombs — score, lives, and the entire core gameplay loop now function.
+- **Verify manually:** play a full round — catch several coins, take a bomb hit, lose all lives, confirm Game Over shows the right score.

@@ -24,7 +24,7 @@ Review
 Merge
 ```
 
-This repository is a tiny, real web app (a **Bitcoin Tip Jar** — not a real wallet, no real Bitcoin involved) that you'll use to go through a complete open-source contribution: from an issue, to code, through Git, onto GitHub, into a Pull Request, past CI, through review, to merge.
+This repository is a tiny, real browser game (**Coin Catcher** — not a real wallet, no real Bitcoin involved, and it currently ships *broken*) that you'll use to go through a complete open-source contribution: from an issue, to code, through Git, onto GitHub, into a Pull Request, past CI, through review, to merge.
 
 **Your mission: open your first Pull Request.**
 

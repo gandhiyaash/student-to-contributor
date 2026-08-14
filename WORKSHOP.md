@@ -56,28 +56,28 @@ Ask: "Everyone has the repo cloned and this README open?" — scan the room for 
 ## 5–15 min — Understand the Project
 
 🎤 **SAY**
-"We're going to work on a tiny app called the Bitcoin Tip Jar. It is not a real wallet — it never touches the Bitcoin network, never handles real money or private keys. Bitcoin is just the theme."
+"We're going to work on a tiny browser game called Coin Catcher. It is not a real wallet — it never touches the Bitcoin network, never handles real money. Bitcoin is just the visual theme: catch falling coins, dodge bombs."
 
 🖥️ **SHOW**
-Open `src/index.html` in a browser (drag the file in, or use a live server). Fill in a name, a fake address, a message. Click "Generate Tip Card."
+Open `src/index.html` in a browser (drag the file in, or use a live server). Click "Start Game," move the basket with ← →, try to catch a coin.
 
 🎤 **SAY**
 "Two minutes on Bitcoin, because it's the context, not the point of today." Summarize [`docs/bitcoin.md`](docs/bitcoin.md): traditional money routes through a bank's database; Bitcoin routes through a network of independent computers sharing one transaction history. That's it — that's the whole mental model needed for today.
 
 🖥️ **SHOW**
-Open `src/app.js` and `src/index.html` side by side. Point at the `id="tip-address"` element and the `generateBtn.addEventListener` block.
+Try to actually catch a coin. Nothing happens — score stays at 0 no matter what. Let that land for a second before explaining.
 
 🎤 **SAY**
-"Notice: the address is displayed as plain text, but there's no way to copy it except manually selecting it. That's our issue for today."
+"The game is broken. Not metaphorically — literally, right now, you cannot catch a single coin. That's our issue for today."
 
 👨‍🎓 **STUDENTS DO**
-Open `src/index.html` in their own browser, try generating a card themselves.
+Open `src/index.html` in their own browser, try playing it, confirm they're just as stuck as you are.
 
 🧠 **TAKEAWAY**
-Small, boring codebases are exactly where real contribution work happens — not "build me an app," but "understand this app well enough to change one thing safely."
+Small, broken codebases are exactly where real contribution work happens — not "build me an app," but "understand this app well enough to fix the one thing that's wrong."
 
 ✅ **CHECKPOINT**
-Ask: "Has everyone got the tip card rendering on their own screen?"
+Ask: "Has everyone confirmed the game is broken on their own screen — no score, no matter what you catch?"
 
 ---
 
@@ -86,20 +86,20 @@ Ask: "Has everyone got the tip card rendering on their own screen?"
 Full script: [`docs/ai-live-demo.md`](docs/ai-live-demo.md). Run it live here, using your own Claude Code session.
 
 🎤 **SAY**
-"Watch how I use AI here. I am not saying 'build me a copy button.' I'm using AI the way an engineer actually would inside a codebase they didn't write."
+"Watch how I use AI here. I am not saying 'build me a game.' The game already exists — it's just broken. I'm using AI the way an engineer actually would inside a codebase they didn't write, to find and fix one specific bug."
 
 ### Step 1 — Investigate
 
 🤖 **ASK CLAUDE**
 ```text
-Explore this repository and understand how the Bitcoin address is currently displayed.
+Explore this repository and understand how catching a falling coin or bomb is currently supposed to work.
 
 Do not modify anything.
 
 Identify:
 1. The relevant files.
 2. How the current implementation works.
-3. Where the new functionality should probably live.
+3. Where the bug most likely is.
 4. Any potential edge cases.
 
 Then explain your findings in beginner-friendly language.
@@ -112,15 +112,15 @@ AI can help a developer understand unfamiliar code before touching it.
 
 🤖 **ASK CLAUDE**
 ```text
-Based on your investigation, propose a minimal implementation plan for the "Add a Copy Address Button" issue.
+Based on your investigation, propose a minimal implementation plan for the "Fix the Broken Catch Mechanic" issue.
 
 Do not modify any files yet.
 
 Explain:
 1. Which files you would change.
-2. What you would change.
-3. How you would handle an empty address.
-4. How you would test the feature.
+2. What exactly is wrong with the current logic.
+3. What the corrected logic should be.
+4. How you would test the fix.
 
 Keep the plan minimal and avoid unrelated changes.
 ```
@@ -177,7 +177,7 @@ The diff is the real artifact. The prompt was just a means to get there.
 ### Step 5 — Run and test
 
 🖥️ **SHOW**
-Reload `src/index.html`, generate a card, click the new copy button. Test: normal address, empty address, repeated clicks, a narrow/mobile browser window.
+Reload `src/index.html`, click "Start Game," actually catch a coin — score should go up. Test: catching several coins, taking a bomb hit, missing items entirely, losing all 3 lives, clicking "Play Again."
 
 🧠 **TAKEAWAY**
 Generated code is not finished software until it's been run.
@@ -188,7 +188,7 @@ Generated code is not finished software until it's been run.
 "I'm going to break this on purpose, so you see what debugging with AI actually looks like."
 
 💻 **RUN**
-Rename the button's `id` in `src/index.html` (e.g. `copy-btn` → `copy-btn-x`) without updating `app.js`, reload, click the button, open the browser console, show the error.
+Rename `BASKET_WIDTH` to `BASKET_W` in one place (but not the others) in `src/app.js`, reload, open the browser console, show the error.
 
 🤖 **ASK CLAUDE**
 ```text
@@ -238,7 +238,7 @@ git diff
 💻 **RUN**
 ```bash
 git add .
-git commit -m "feat: add copy address button"
+git commit -m "fix: correct basket/item collision detection"
 git log --oneline
 ```
 
@@ -248,14 +248,14 @@ git log --oneline
 💻 **RUN**
 ```bash
 git branch
-git switch -c feature/copy-address
+git switch -c fix/catch-mechanic
 ```
 
 🖥️ **SHOW**
 ```text
 main
  |
- └── feature/copy-address
+ └── fix/catch-mechanic
 ```
 
 🎤 **SAY**
@@ -412,7 +412,7 @@ Ask if anyone has hit a real (non-demo) CI failure on their own PR — help them
 
 Full explanation: [`docs/ai-pr-review.md`](docs/ai-pr-review.md).
 
-🤖 **ASK CLAUDE** (against the same PR reviewed live earlier, or the copy-address implementation)
+🤖 **ASK CLAUDE** (against the same PR reviewed live earlier, or the collision-fix implementation)
 ```text
 Review the current changes as if you were an open-source maintainer.
 

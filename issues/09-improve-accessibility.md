@@ -2,24 +2,25 @@
 
 ## Problem
 
-The app hasn't been audited for keyboard or screen-reader usability. Some interactive elements and dynamic feedback (like copy-success messages) may not be properly exposed to assistive technology.
+The game is playable by keyboard (arrow keys already move the basket), but players who can't see the canvas get no information at all — score changes, bomb hits, and game over are all silent and invisible unless you can see the screen.
 
 ## Context
 
-Structure is in [`src/index.html`](../src/index.html); dynamic feedback is written in [`src/app.js`](../src/app.js).
+There's already an empty status element in [`src/index.html`](../src/index.html): `<p class="status" id="status" role="status" aria-live="polite"></p>`. It exists but nothing in `src/app.js` ever writes to it.
 
 ## Expected behavior
 
-Every interactive element is reachable and operable using only the keyboard (Tab, Shift+Tab, Enter/Space), and dynamic feedback is announced via `aria-live` regions, without changing the visual design.
+Key game events (score increasing, a bomb hit, game over with final score) are announced through the existing `#status` element so screen readers pick them up automatically via `aria-live`. The canvas's `aria-label` should also stay meaningfully up to date (e.g. reflect current score/lives) rather than a single static label.
 
 ## Acceptance criteria
 
-- [ ] Every form field has a properly associated `<label>`.
-- [ ] Full form + buttons are operable via keyboard only, in a sensible focus order.
-- [ ] Dynamic feedback (copy success, validation errors) uses `aria-live` so screen readers announce it.
-- [ ] No visual/design regressions.
+- [ ] Catching a coin announces something like "Coin caught! Score: 30."
+- [ ] Catching a bomb announces something like "Bomb hit! 2 lives left."
+- [ ] Game over announces the final score clearly.
+- [ ] Announcements don't spam — avoid re-announcing identical text repeatedly in a way that's unusable with a screen reader.
+- [ ] No visual design regressions.
 - [ ] CI passes.
 
 ## Hints
 
-Test by unplugging your mouse (or just not touching it) and tabbing through the entire form. See [`tasks/advanced.md`](../tasks/advanced.md) Issue 9.
+Update `#status`'s `textContent` at the same points in `src/app.js` where you already update the score/lives HUD. Test by using your OS's built-in screen reader (VoiceOver on macOS: Cmd+F5) or simply by reading the DOM changes in dev tools. See [`tasks/advanced.md`](../tasks/advanced.md) Issue 9.

@@ -1,28 +1,139 @@
-// Bitcoin Tip Jar — a tiny educational app.
-// Not a real wallet. Does not touch the Bitcoin network. Text in, text out.
+// Coin Catcher — a tiny educational game.
+// Not connected to the real Bitcoin network. Coins are just the theme.
 
-const generateBtn = document.getElementById("generate-btn");
-const resultCard = document.getElementById("result-card");
-const tipName = document.getElementById("tip-name");
-const tipAddress = document.getElementById("tip-address");
-const tipMessage = document.getElementById("tip-message");
+const canvas = document.getElementById("game-canvas");
+const ctx = canvas.getContext("2d");
 
-generateBtn.addEventListener("click", () => {
-  const name = document.getElementById("name").value.trim();
-  const address = document.getElementById("address").value.trim();
-  const message = document.getElementById("message").value.trim();
+const scoreEl = document.getElementById("score");
+const livesEl = document.getElementById("lives");
+const startOverlay = document.getElementById("start-overlay");
+const startBtn = document.getElementById("start-btn");
+const gameOverOverlay = document.getElementById("game-over-overlay");
+const finalScoreEl = document.getElementById("final-score");
+const restartBtn = document.getElementById("restart-btn");
 
-  if (!address) {
-    alert("Please enter a Bitcoin or Lightning address.");
-    return;
+const BASKET_WIDTH = 70;
+const BASKET_HEIGHT = 18;
+const BASKET_SPEED = 6;
+const ITEM_SIZE = 28;
+const SPAWN_INTERVAL_MS = 800;
+const BOMB_CHANCE = 0.2;
+
+let basket, items, score, lives, running, keys, lastSpawn, animationId;
+
+function resetState() {
+  basket = { x: canvas.width / 2 - BASKET_WIDTH / 2, y: canvas.height - BASKET_HEIGHT - 10 };
+  items = [];
+  score = 0;
+  lives = 3;
+  running = false;
+  keys = {};
+  lastSpawn = 0;
+  updateHud();
+}
+
+function updateHud() {
+  scoreEl.textContent = score;
+  livesEl.textContent = lives;
+}
+
+function spawnItem() {
+  const isBomb = Math.random() < BOMB_CHANCE;
+  items.push({
+    x: Math.random() * (canvas.width - ITEM_SIZE),
+    y: -ITEM_SIZE,
+    size: ITEM_SIZE,
+    speed: 2 + Math.random() * 1.5,
+    type: isBomb ? "bomb" : "coin",
+  });
+}
+
+// Should return true when the basket and the falling item's boxes overlap.
+function isColliding(basketBox, item) {
+  return (
+    item.x > basketBox.x + BASKET_WIDTH &&
+    item.x + item.size < basketBox.x &&
+    item.y + item.size > basketBox.y
+  );
+}
+
+function update(timestamp) {
+  if (!running) return;
+
+  if (timestamp - lastSpawn > SPAWN_INTERVAL_MS) {
+    spawnItem();
+    lastSpawn = timestamp;
   }
 
-  tipName.textContent = name ? `${name}'s Tip Jar` : "Anonymous Tip Jar";
-  tipAddress.textContent = address;
-  tipMessage.textContent = message || "";
+  if (keys.ArrowLeft) basket.x -= BASKET_SPEED;
+  if (keys.ArrowRight) basket.x += BASKET_SPEED;
 
-  resultCard.hidden = false;
+  for (let i = items.length - 1; i >= 0; i--) {
+    const item = items[i];
+    item.y += item.speed;
 
-  // NOTE: There is currently no way to copy `address` without manual
-  // text selection. See Issue: "Add a Copy Address Button".
+    if (isColliding(basket, item)) {
+      items.splice(i, 1);
+      if (item.type === "coin") {
+        score += 10;
+      } else {
+        lives -= 1;
+        alert("Ouch! You hit a bomb.");
+      }
+      updateHud();
+      if (lives <= 0) {
+        endGame();
+        return;
+      }
+      continue;
+    }
+
+    if (item.y > canvas.height) {
+      items.splice(i, 1);
+    }
+  }
+
+  draw();
+  animationId = requestAnimationFrame(update);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#f7931a";
+  ctx.fillRect(basket.x, basket.y, BASKET_WIDTH, BASKET_HEIGHT);
+
+  ctx.font = `${ITEM_SIZE}px serif`;
+  for (const item of items) {
+    ctx.fillText(item.type === "coin" ? "🪙" : "💣", item.x, item.y + item.size);
+  }
+}
+
+function endGame() {
+  running = false;
+  cancelAnimationFrame(animationId);
+  finalScoreEl.textContent = score;
+  gameOverOverlay.hidden = false;
+}
+
+function startGame() {
+  resetState();
+  running = true;
+  startOverlay.hidden = true;
+  gameOverOverlay.hidden = true;
+  lastSpawn = performance.now();
+  animationId = requestAnimationFrame(update);
+}
+
+window.addEventListener("keydown", (e) => {
+  keys[e.key] = true;
 });
+window.addEventListener("keyup", (e) => {
+  keys[e.key] = false;
+});
+
+startBtn.addEventListener("click", startGame);
+restartBtn.addEventListener("click", startGame);
+
+resetState();
+draw();

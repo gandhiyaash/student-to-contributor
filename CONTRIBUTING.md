@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to Bitcoin Tip Jar. This document is the exact workflow every change in this repository follows — the same workflow real open-source projects use.
+Thanks for contributing to Coin Catcher. This document is the exact workflow every change in this repository follows — the same workflow real open-source projects use.
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ git switch -c <type>/<short-description>
 ```
 
 **Naming conventions:**
-- `feature/copy-address` — new functionality
+- `feature/touch-controls` — new functionality
 - `fix/mobile-overflow` — bug fixes
 - `docs/fix-typo-readme` — documentation
 - `students/<your-github-username>` — adding yourself to contributors

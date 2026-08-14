@@ -3,39 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bitcoin Tip Jar</title>
+  <title>Coin Catcher</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
     <header class="header">
-      <h1>⚡ Bitcoin Tip Jar</h1>
-      <p class="subtitle">A tiny educational app — not a real wallet, not real Bitcoin.</p>
+      <h1>🪙 Coin Catcher</h1>
+      <p class="subtitle">A tiny educational game — not a real wallet, not real Bitcoin.</p>
     </header>
 
-    <section class="card form-card">
-      <h2>Create your tip card</h2>
-
-      <label for="name">Your name</label>
-      <input type="text" id="name" placeholder="e.g. Satoshi" />
-
-      <label for="address">Bitcoin or Lightning address</label>
-      <input type="text" id="address" placeholder="e.g. bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
-
-      <label for="message">Message (optional)</label>
-      <textarea id="message" placeholder="Thanks for supporting my work!"></textarea>
-
-      <button id="generate-btn" type="button">Generate Tip Card</button>
-    </section>
-
-    <section class="card result-card" id="result-card" hidden>
-      <h2>Your Tip Card</h2>
-      <div class="tip-card" id="tip-card">
-        <p class="tip-name" id="tip-name"></p>
-        <p class="tip-address" id="tip-address"></p>
-        <p class="tip-message" id="tip-message"></p>
-        <!-- TODO (Issue: Add a Copy Address Button): a "Copy address" button belongs here. -->
+    <section class="card game-card">
+      <div class="hud">
+        <span>Score: <strong id="score">0</strong></span>
+        <span>Lives: <strong id="lives">3</strong></span>
       </div>
+
+      <div class="game-wrap">
+        <canvas id="game-canvas" width="480" height="360"
+          aria-label="Coin Catcher game canvas">
+        </canvas>
+
+        <div class="overlay" id="start-overlay">
+          <h2>Ready?</h2>
+          <p>Move the basket with ← → and catch the falling coins. Avoid the bombs.</p>
+          <button id="start-btn" type="button">Start Game</button>
+        </div>
+
+        <div class="overlay" id="game-over-overlay" hidden>
+          <h2>Game Over</h2>
+          <p>Final score: <strong id="final-score">0</strong></p>
+          <button id="restart-btn" type="button">Play Again</button>
+        </div>
+      </div>
+
+      <p class="status" id="status" role="status" aria-live="polite"></p>
     </section>
   </main>
 
