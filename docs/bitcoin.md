@@ -84,5 +84,5 @@ These are real and important, but out of scope for a 5-minute mental model. Look
 
 - [bitcoin.org](https://bitcoin.org) — general, beginner-oriented overview.
 - [Mastering Bitcoin (free online book)](https://github.com/bitcoinbook/bitcoinbook) — the standard deep-dive technical reference.
-
 - [Bitcoin Developer Documentation](https://developer.bitcoin.org/) — A practical introduction to Bitcoin's blockchain, transactions, wallets, and other technical concepts.
+- [Learn Me A Bitcoin](https://learnmeabitcoin.com) — an illustrated, beginner-friendly guide explaining how Bitcoin works step by step.
