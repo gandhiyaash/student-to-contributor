@@ -14,6 +14,7 @@
 - [ ] Broken catch mechanic verified on `main` — start the game, confirm score never increases
 - [ ] Intentional CI failure verified reproducible (see [`WORKSHOP.md`](../WORKSHOP.md) 130–138 min block)
 - [ ] `bug/broken-restart-button` branch exists and pushed (`git branch -a`)
+- [ ] Know that you (the repo owner) cannot click "Fork" on your own repo during the live demo — GitHub blocks forking into the same account. Either point at the button without clicking, or pre-fork the repo under a secondary GitHub account beforehand so you have a real fork to show on screen.
 - [ ] Backup: a local clone of the repo on the facilitator's machine, independent of Wi-Fi
 - [ ] Offline materials available (`offline/`, `OFFLINE.md`) — confirm they open with no internet
 - [ ] Workshop URL ready to share (the GitHub repo link)

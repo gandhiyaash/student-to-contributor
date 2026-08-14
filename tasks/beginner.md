@@ -15,8 +15,12 @@ All three issues use the fork workflow — see [`docs/fork-workflow.md`](../docs
 2. Clone **your fork**: `git clone https://github.com/<your-username>/student-to-contributor.git`
 3. `cd student-to-contributor`
 4. `git switch -c students/<your-github-username>`
-5. Copy [`students/TEMPLATE.md`](../students/TEMPLATE.md) to a new file named after you, e.g. `students/alice-johnson.md` (lowercase, hyphens, no spaces).
-6. Fill in your name, your GitHub username, and one sentence about what you learned.
+5. Copy the template to a new file named after you (lowercase, hyphens, no spaces):
+   ```bash
+   cp students/TEMPLATE.md students/alice-johnson.md
+   ```
+   (replace `alice-johnson` with your own name, in that same lowercase-hyphenated format)
+6. Open your new file in a text editor and fill in your name, your GitHub username, and one sentence about what you learned.
 7. `git add students/<your-file>.md`
 8. `git commit -m "docs: add <your-name> student profile"`
 9. `git push -u origin students/<your-github-username>`

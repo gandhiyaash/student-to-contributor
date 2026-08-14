@@ -304,7 +304,7 @@ Your Computer
 "Everything we just did — status, diff, add, commit, branch — none of it touched the internet. Only `push` and `pull` do."
 
 🖥️ **SHOW**
-The GitHub repository page: the Issues tab (show 2-3 real issues), the branches dropdown, an existing closed PR if one exists, or the PR template preview. Then click **Fork** live, and explain: "None of you have write access to this repository — nobody does, that's normal. You fork it, work in your own copy, and propose changes back with a Pull Request. That's how every real open-source project works."
+The GitHub repository page: the Issues tab (show 2-3 real issues), the branches dropdown, an existing closed PR if one exists, or the PR template preview. Point at the **Fork** button (don't click it — you're the owner, GitHub won't let you fork your own repo into the same account) and then switch to a student's screen or your own already-forked practice copy to show what a fork actually looks like at `<username>/student-to-contributor`. Explain: "None of you have write access to this repository — nobody does, that's normal. You fork it, work in your own copy, and propose changes back with a Pull Request. That's how every real open-source project works."
 
 🧠 **TAKEAWAY**
 Git = version control on your computer. GitHub = a hosting and collaboration platform for Git repositories. A fork is your own copy of the whole repository; you contribute back to the original via Pull Request, never by pushing directly to it.
