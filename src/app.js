@@ -39,11 +39,12 @@ function updateHud() {
 
 function spawnItem() {
   const isBomb = Math.random() < BOMB_CHANCE;
+  const speedBonus = Math.min(score * 0.05, 4);
   items.push({
     x: Math.random() * (canvas.width - ITEM_SIZE),
     y: -ITEM_SIZE,
     size: ITEM_SIZE,
-    speed: 2 + Math.random() * 1.5,
+    speed: 2 + Math.random() * 1.5 + speedBonus,
     type: isBomb ? "bomb" : "coin",
   });
 }
@@ -67,6 +68,7 @@ function update(timestamp) {
 
   if (keys.ArrowLeft) basket.x -= BASKET_SPEED;
   if (keys.ArrowRight) basket.x += BASKET_SPEED;
+  basket.x = Math.max(0, Math.min(canvas.width - BASKET_WIDTH, basket.x));
 
   for (let i = items.length - 1; i >= 0; i--) {
     const item = items[i];
