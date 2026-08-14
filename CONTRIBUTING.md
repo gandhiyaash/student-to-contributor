@@ -58,6 +58,16 @@ python3 -m http.server 8000
 
 then open `http://localhost:8000` in your browser. (Any static server works — `npx serve` if you have Node, or your editor's "Live Server" extension, are equally fine.)
 
+## Running tests locally
+
+To run the automated unit test suite:
+
+```bash
+npm test
+```
+
+(or `node tests/app.test.js`). The test suite uses Node's built-in assertion module without third-party dependencies.
+
 ## 4. Check your diff
 
 Before committing, always review exactly what you changed:

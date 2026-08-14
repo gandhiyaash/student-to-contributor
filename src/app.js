@@ -1,17 +1,3 @@
-// Coin Catcher — a tiny educational game.
-// Not connected to the real Bitcoin network. Coins are just the theme.
-
-const canvas = document.getElementById("game-canvas");
-const ctx = canvas.getContext("2d");
-
-const scoreEl = document.getElementById("score");
-const livesEl = document.getElementById("lives");
-const startOverlay = document.getElementById("start-overlay");
-const startBtn = document.getElementById("start-btn");
-const gameOverOverlay = document.getElementById("game-over-overlay");
-const finalScoreEl = document.getElementById("final-score");
-const restartBtn = document.getElementById("restart-btn");
-
 const BASKET_WIDTH = 70;
 const BASKET_HEIGHT = 18;
 const BASKET_SPEED = 6;
@@ -19,10 +5,27 @@ const ITEM_SIZE = 28;
 const SPAWN_INTERVAL_MS = 800;
 const BOMB_CHANCE = 0.2;
 
+let canvas, ctx, scoreEl, livesEl, startOverlay, startBtn, gameOverOverlay, finalScoreEl, restartBtn;
+
+if (typeof document !== "undefined") {
+  canvas = document.getElementById("game-canvas");
+  ctx = canvas ? canvas.getContext("2d") : null;
+
+  scoreEl = document.getElementById("score");
+  livesEl = document.getElementById("lives");
+  startOverlay = document.getElementById("start-overlay");
+  startBtn = document.getElementById("start-btn");
+  gameOverOverlay = document.getElementById("game-over-overlay");
+  finalScoreEl = document.getElementById("final-score");
+  restartBtn = document.getElementById("restart-btn");
+}
+
 let basket, items, score, lives, running, keys, lastSpawn, animationId;
 
 function resetState() {
-  basket = { x: canvas.width / 2 - BASKET_WIDTH / 2, y: canvas.height - BASKET_HEIGHT - 10 };
+  const canvasWidth = canvas ? canvas.width : 480;
+  const canvasHeight = canvas ? canvas.height : 360;
+  basket = { x: canvasWidth / 2 - BASKET_WIDTH / 2, y: canvasHeight - BASKET_HEIGHT - 10 };
   items = [];
   score = 0;
   lives = 3;
@@ -33,8 +36,8 @@ function resetState() {
 }
 
 function updateHud() {
-  scoreEl.textContent = score;
-  livesEl.textContent = lives;
+  if (scoreEl) scoreEl.textContent = score;
+  if (livesEl) livesEl.textContent = lives;
 }
 
 function getDifficultyFactor() {
@@ -42,10 +45,11 @@ function getDifficultyFactor() {
 }
 
 function spawnItem() {
+  const canvasWidth = canvas ? canvas.width : 480;
   const isBomb = Math.random() < BOMB_CHANCE;
   const difficultyFactor = getDifficultyFactor();
   items.push({
-    x: Math.random() * (canvas.width - ITEM_SIZE),
+    x: Math.random() * (canvasWidth - ITEM_SIZE),
     y: -ITEM_SIZE,
     size: ITEM_SIZE,
     speed: (2 + Math.random() * 1.5) * difficultyFactor,
@@ -75,7 +79,8 @@ function update(timestamp) {
   if (keys.ArrowLeft) basket.x -= BASKET_SPEED;
   if (keys.ArrowRight) basket.x += BASKET_SPEED;
 
-  basket.x = Math.max(0, Math.min(canvas.width - BASKET_WIDTH, basket.x));
+  const canvasWidth = canvas ? canvas.width : 480;
+  basket.x = Math.max(0, Math.min(canvasWidth - BASKET_WIDTH, basket.x));
 
   for (let i = items.length - 1; i >= 0; i--) {
     const item = items[i];
@@ -87,7 +92,7 @@ function update(timestamp) {
         score += 10;
       } else {
         lives -= 1;
-        alert("Ouch! You hit a bomb.");
+        if (typeof alert !== "undefined") alert("Ouch! You hit a bomb.");
       }
       updateHud();
       if (lives <= 0) {
@@ -97,16 +102,20 @@ function update(timestamp) {
       continue;
     }
 
-    if (item.y > canvas.height) {
+    const canvasHeight = canvas ? canvas.height : 360;
+    if (item.y > canvasHeight) {
       items.splice(i, 1);
     }
   }
 
   draw();
-  animationId = requestAnimationFrame(update);
+  if (typeof requestAnimationFrame !== "undefined") {
+    animationId = requestAnimationFrame(update);
+  }
 }
 
 function draw() {
+  if (!ctx || !canvas) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "#f7931a";
@@ -120,29 +129,39 @@ function draw() {
 
 function endGame() {
   running = false;
-  cancelAnimationFrame(animationId);
-  finalScoreEl.textContent = score;
-  gameOverOverlay.hidden = false;
+  if (typeof cancelAnimationFrame !== "undefined") {
+    cancelAnimationFrame(animationId);
+  }
+  if (finalScoreEl) finalScoreEl.textContent = score;
+  if (gameOverOverlay) gameOverOverlay.hidden = false;
 }
 
 function startGame() {
   resetState();
   running = true;
-  startOverlay.hidden = true;
-  gameOverOverlay.hidden = true;
-  lastSpawn = performance.now();
-  animationId = requestAnimationFrame(update);
+  if (startOverlay) startOverlay.hidden = true;
+  if (gameOverOverlay) gameOverOverlay.hidden = true;
+  lastSpawn = typeof performance !== "undefined" ? performance.now() : Date.now();
+  if (typeof requestAnimationFrame !== "undefined") {
+    animationId = requestAnimationFrame(update);
+  }
 }
 
-window.addEventListener("keydown", (e) => {
-  keys[e.key] = true;
-});
-window.addEventListener("keyup", (e) => {
-  keys[e.key] = false;
-});
+if (typeof window !== "undefined") {
+  window.addEventListener("keydown", (e) => {
+    keys[e.key] = true;
+  });
+  window.addEventListener("keyup", (e) => {
+    keys[e.key] = false;
+  });
 
-startBtn.addEventListener("click", startGame);
-restartBtn.addEventListener("click", startGame);
+  if (startBtn) startBtn.addEventListener("click", startGame);
+  if (restartBtn) restartBtn.addEventListener("click", startGame);
 
-resetState();
-draw();
+  resetState();
+  draw();
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { isColliding, BASKET_WIDTH, BASKET_HEIGHT, getDifficultyFactor };
+}

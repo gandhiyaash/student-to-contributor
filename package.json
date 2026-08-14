@@ -1,0 +1,9 @@
+{
+  "name": "coin-catcher",
+  "version": "1.0.0",
+  "description": "Educational Coin Catcher game",
+  "scripts": {
+    "test": "node tests/app.test.js"
+  },
+  "private": true
+}
