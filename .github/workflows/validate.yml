@@ -11,7 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check JavaScript syntax
-        run: node .github/scripts/check-js-syntax.js
+        run: node .github/scripts/check-is-syntax.js
+
+  node-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run automated tests
+        run: npm test
 
   html-syntax:
     runs-on: ubuntu-latest
