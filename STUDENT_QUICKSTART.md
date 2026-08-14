@@ -15,7 +15,7 @@ One screen, exact commands. Full explanations: [`docs/fork-workflow.md`](docs/fo
    git switch -c students/<your-github-username>
    ```
 6. **Pick an issue.** [`tasks/beginner.md`](tasks/beginner.md) · [`tasks/intermediate.md`](tasks/intermediate.md) · [`tasks/advanced.md`](tasks/advanced.md)
-7. **Make your change.**
+7. **Make your change.** To see the game: double-click `src/index.html` — opens in your browser, no server needed. Reload the page after each edit.
 8. **Run tests / validation (optional but recommended):**
    ```bash
    node .github/scripts/check-js-syntax.js

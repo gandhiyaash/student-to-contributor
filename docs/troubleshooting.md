@@ -86,6 +86,12 @@ git switch feature/my-fix
 
 ---
 
+**SYMPTOM:** Not sure how to actually run/see the game.
+**CAUSE:** It's not obvious that a no-build-step app just means "open the HTML file."
+**FIX:** Double-click `src/index.html` in your file browser — it opens straight in your default browser, no server or install needed. After editing any file in `src/`, just reload the page (Cmd+R / Ctrl+R). See [`../CONTRIBUTING.md#running-the-game-locally`](../CONTRIBUTING.md#running-the-game-locally).
+
+---
+
 **SYMPTOM:** The app doesn't load or shows a blank page.
 **CAUSE:** Usually opening `app.js` directly instead of `index.html`, or a JS error breaking the page.
 **FIX:** Open `src/index.html` in your browser, then open DevTools → Console to see the actual error.

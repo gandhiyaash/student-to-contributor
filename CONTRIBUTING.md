@@ -41,6 +41,23 @@ git switch -c <type>/<short-description>
 
 Pick a task from [`tasks/beginner.md`](tasks/beginner.md), [`tasks/intermediate.md`](tasks/intermediate.md), or [`tasks/advanced.md`](tasks/advanced.md), or a corresponding GitHub Issue. Keep the change scoped to that one task — don't fix unrelated things in the same PR, even if you notice them (open a new issue instead).
 
+## Running the game locally
+
+Coin Catcher is plain HTML/CSS/JS with no build step and no dependencies — there's nothing to install or compile.
+
+**Simplest way:** find `src/index.html` in your file browser (Finder/Explorer) and double-click it. It opens directly in your default browser and works fully — moving the basket, catching (or, on `main`, failing to catch) items, all of it.
+
+After you edit `src/app.js`, `src/index.html`, or `src/style.css`, just **reload the page** in your browser (Cmd+R / Ctrl+R) to see your change — no restart, no rebuild.
+
+If double-clicking doesn't open it in a browser, or you'd rather use a local server (also fine, and closer to how real web projects are usually run): from the repository root,
+
+```bash
+cd src
+python3 -m http.server 8000
+```
+
+then open `http://localhost:8000` in your browser. (Any static server works — `npx serve` if you have Node, or your editor's "Live Server" extension, are equally fine.)
+
 ## 4. Check your diff
 
 Before committing, always review exactly what you changed:

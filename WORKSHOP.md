@@ -67,7 +67,7 @@ Ask: "Everyone has forked, cloned their own fork, and has this README open in th
 "We're going to work on a tiny browser game called Coin Catcher. It is not a real wallet — it never touches the Bitcoin network, never handles real money. Bitcoin is just the visual theme: catch falling coins, dodge bombs."
 
 🖥️ **SHOW**
-Open `src/index.html` in a browser (drag the file in, or use a live server). Click "Start Game," move the basket with ← →, try to catch a coin.
+Double-click `src/index.html` to open it in a browser (see [`CONTRIBUTING.md`](CONTRIBUTING.md#running-the-game-locally) for details — no server needed). Click "Start Game," move the basket with ← →, try to catch a coin.
 
 🎤 **SAY**
 "Two minutes on Bitcoin, because it's the context, not the point of today." Summarize [`docs/bitcoin.md`](docs/bitcoin.md): traditional money routes through a bank's database; Bitcoin routes through a network of independent computers sharing one transaction history. That's it — that's the whole mental model needed for today.
