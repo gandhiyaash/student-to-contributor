@@ -21,6 +21,8 @@ const SPAWN_INTERVAL_MS = 800;
 const BOMB_CHANCE = 0.2;
 
 let basket, items, score, lives, running, keys, lastSpawn, animationId, hitFlashUntil;
+let isDragging = false;
+let dragOffsetX = 0;
 
 function resetState() {
   basket = { x: canvas ? canvas.width / 2 - BASKET_WIDTH / 2 : 205, y: canvas ? canvas.height - BASKET_HEIGHT - 10 : 332 };
@@ -166,12 +168,26 @@ function startGame() {
   animationId = requestAnimationFrame(update);
 }
 
-function updateBasketFromPointer(clientX) {
-  if (!canvas || !running) return;
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const canvasX = (clientX - rect.left) * scaleX;
-  basket.x = Math.max(0, Math.min(canvas.width - BASKET_WIDTH, canvasX - BASKET_WIDTH / 2));
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function getPointerX(event) {
+  return event.clientX - canvas.getBoundingClientRect().left;
+}
+
+function startDrag(clientX) {
+  isDragging = true;
+  dragOffsetX = basket.x - clientX;
+}
+
+function moveDrag(clientX) {
+  if (!isDragging) return;
+  basket.x = clamp(clientX + dragOffsetX, 0, canvas.width - BASKET_WIDTH);
+}
+
+function endDrag() {
+  isDragging = false;
 }
 
 if (typeof window !== "undefined") {
@@ -185,35 +201,28 @@ if (typeof window !== "undefined") {
   });
 
   if (canvas) {
-    let isPointerDown = false;
     canvas.addEventListener("touchstart", (e) => {
-      if (e.touches.length > 0) {
-        e.preventDefault();
-        updateBasketFromPointer(e.touches[0].clientX);
-      }
+      e.preventDefault();
+      startDrag(getPointerX(e.touches[0]));
     }, { passive: false });
 
     canvas.addEventListener("touchmove", (e) => {
-      if (e.touches.length > 0) {
-        e.preventDefault();
-        updateBasketFromPointer(e.touches[0].clientX);
-      }
+      e.preventDefault();
+      moveDrag(getPointerX(e.touches[0]));
     }, { passive: false });
 
+    canvas.addEventListener("touchend", endDrag);
+    canvas.addEventListener("touchcancel", endDrag);
+
     canvas.addEventListener("mousedown", (e) => {
-      isPointerDown = true;
-      updateBasketFromPointer(e.clientX);
+      startDrag(getPointerX(e));
     });
 
     window.addEventListener("mousemove", (e) => {
-      if (isPointerDown) {
-        updateBasketFromPointer(e.clientX);
-      }
+      moveDrag(getPointerX(e));
     });
 
-    window.addEventListener("mouseup", () => {
-      isPointerDown = false;
-    });
+    window.addEventListener("mouseup", endDrag);
   }
 }
 
