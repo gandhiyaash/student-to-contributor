@@ -76,6 +76,7 @@ canvas {
   background: #0f1115;
   border: 1px solid var(--border);
   border-radius: 10px;
+  touch-action: none;
 }
 
 .overlay {
