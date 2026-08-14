@@ -6,6 +6,7 @@ const ctx = canvas.getContext("2d");
 
 const scoreEl = document.getElementById("score");
 const livesEl = document.getElementById("lives");
+const statusEl = document.getElementById("status");
 const startOverlay = document.getElementById("start-overlay");
 const startBtn = document.getElementById("start-btn");
 const gameOverOverlay = document.getElementById("game-over-overlay");
@@ -22,23 +23,35 @@ const BOMB_CHANCE = 0.2;
 let basket, items, score, lives, running, keys, lastSpawn, animationId;
 
 function resetState() {
-  basket = { x: canvas.width / 2 - BASKET_WIDTH / 2, y: canvas.height - BASKET_HEIGHT - 10 };
+  basket = {
+    x: canvas.width / 2 - BASKET_WIDTH / 2,
+    y: canvas.height - BASKET_HEIGHT - 10
+  };
+
   items = [];
   score = 0;
   lives = 3;
   running = false;
   keys = {};
   lastSpawn = 0;
+
+  statusEl.textContent = "";
   updateHud();
 }
 
 function updateHud() {
   scoreEl.textContent = score;
   livesEl.textContent = lives;
+
+  canvas.setAttribute(
+    "aria-label",
+    `Coin Catcher game. Score: ${score}. Lives: ${lives}.`
+  );
 }
 
 function spawnItem() {
   const isBomb = Math.random() < BOMB_CHANCE;
+
   items.push({
     x: Math.random() * (canvas.width - ITEM_SIZE),
     y: -ITEM_SIZE,
@@ -51,8 +64,9 @@ function spawnItem() {
 // Should return true when the basket and the falling item's boxes overlap.
 function isColliding(basketBox, item) {
   return (
-    item.x > basketBox.x + BASKET_WIDTH &&
-    item.x + item.size < basketBox.x &&
+    item.x < basketBox.x + BASKET_WIDTH &&
+    item.x + item.size > basketBox.x &&
+    item.y < basketBox.y + BASKET_HEIGHT &&
     item.y + item.size > basketBox.y
   );
 }
@@ -74,17 +88,25 @@ function update(timestamp) {
 
     if (isColliding(basket, item)) {
       items.splice(i, 1);
+
       if (item.type === "coin") {
         score += 10;
+        statusEl.textContent = `Coin caught! Score: ${score}.`;
       } else {
         lives -= 1;
-        alert("Ouch! You hit a bomb.");
+        statusEl.textContent = `Bomb hit! ${lives} ${
+          lives === 1 ? "life" : "lives"
+        } left.`;
       }
+
       updateHud();
+
       if (lives <= 0) {
+        statusEl.textContent = `Game over. Final score: ${score}.`;
         endGame();
         return;
       }
+
       continue;
     }
 
@@ -101,11 +123,21 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "#f7931a";
-  ctx.fillRect(basket.x, basket.y, BASKET_WIDTH, BASKET_HEIGHT);
+  ctx.fillRect(
+    basket.x,
+    basket.y,
+    BASKET_WIDTH,
+    BASKET_HEIGHT
+  );
 
   ctx.font = `${ITEM_SIZE}px serif`;
+
   for (const item of items) {
-    ctx.fillText(item.type === "coin" ? "🪙" : "💣", item.x, item.y + item.size);
+    ctx.fillText(
+      item.type === "coin" ? "🪙" : "💣",
+      item.x,
+      item.y + item.size
+    );
   }
 }
 
@@ -128,6 +160,7 @@ function startGame() {
 window.addEventListener("keydown", (e) => {
   keys[e.key] = true;
 });
+
 window.addEventListener("keyup", (e) => {
   keys[e.key] = false;
 });
