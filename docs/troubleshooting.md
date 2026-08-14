@@ -62,6 +62,12 @@ git switch feature/my-fix
 
 ---
 
+**SYMPTOM:** Working on Issue 10 (the deliberate bug), your PR shows "no changes" or an empty diff even though you fixed the bug.
+**CAUSE:** You opened the PR against `main` by default. `main` never had this bug — only the `bug/broken-restart-button` branch does — so comparing your fix against `main` shows nothing.
+**FIX:** On GitHub's "Compare & pull request" screen, click the "base: main" dropdown and change it to `bug/broken-restart-button` before creating the PR. See [`../tasks/advanced.md`](../tasks/advanced.md) Issue 10.
+
+---
+
 **SYMPTOM:** Confused about "fork" vs. "branch."
 **CAUSE:** They solve a similar problem at different levels — a fork is your own copy of the whole repository on GitHub; a branch is a line of work inside a repository.
 **FIX:** For this workshop, you fork the repository first (you don't have write access to the original), then create a branch *inside your fork*. See [`fork-workflow.md`](fork-workflow.md) for the exact sequence.

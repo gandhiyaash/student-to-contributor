@@ -61,5 +61,6 @@ Goal: work like a real contributor on a codebase you don't fully control — rea
 4. Use `git diff main` (comparing against `main`), `git log`, and/or an AI debugging prompt (see `docs/claude-code-prompts.md`) to find the root cause.
 5. Apply the smallest possible fix.
 6. Re-test: full loop of play → lose → Game Over → Play Again → play again, more than once in a row.
+7. Push to your fork, then open your Pull Request with the base branch set to **`bug/broken-restart-button`, not `main`**. `main` never had this bug, so a PR against `main` would show an empty diff — GitHub lets you pick the base branch on the "Compare & pull request" screen (click "base: main" and change it).
 
-**Success criteria:** "Play Again" reliably resets and restarts the game; no unrelated code changed; you can explain the root cause in the PR description.
+**Success criteria:** "Play Again" reliably resets and restarts the game; no unrelated code changed; you can explain the root cause in the PR description; the PR's base branch is `bug/broken-restart-button` so the diff actually shows your fix.

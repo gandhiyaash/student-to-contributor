@@ -26,6 +26,7 @@ Clicking "Play Again" resets score, lives, and all falling items, hides the Game
 - [ ] Manually re-tested: full loop of play → lose → Game Over → Play Again → play again works repeatedly.
 - [ ] No new console errors introduced.
 - [ ] CI passes.
+- [ ] **PR's base branch is `bug/broken-restart-button`, not `main`** — `main` never had this bug, so a PR against `main` would show no diff at all. Change the base branch on GitHub's "Compare & pull request" screen before submitting.
 
 ## Hints
 
