@@ -40,7 +40,7 @@ Person
 
 That's genuinely the core idea. Everything else (mining, wallets, the Lightning Network) is implementation detail on top of that idea.
 
-## Addresses (and what this app uses as a theme)
+## Addresses (what this app actually uses)
 
 A Bitcoin address (or a Lightning address, which looks like an email) is just an identifier you share so someone can send you value — similar in spirit to a bank account number, except anyone can generate one instantly, for free, without asking permission from anyone.
 
@@ -85,4 +85,4 @@ These are real and important, but out of scope for a 5-minute mental model. Look
 - [bitcoin.org](https://bitcoin.org) — general, beginner-oriented overview.
 - [Mastering Bitcoin (free online book)](https://github.com/bitcoinbook/bitcoinbook) — the standard deep-dive technical reference.
 
-- [Bitcoin Developer Documentation](https://developer.bitcoin.org/) — A practical introduction to Bitcoin's blockchain, transactions, wallets, and other technical concepts.
+<!-- Beginner Issue 3 asks students to add one more resource below this line. -->
