@@ -84,5 +84,6 @@ These are real and important, but out of scope for a 5-minute mental model. Look
 
 - [bitcoin.org](https://bitcoin.org) — general, beginner-oriented overview.
 - [Mastering Bitcoin (free online book)](https://github.com/bitcoinbook/bitcoinbook) — the standard deep-dive technical reference.
+- [The Bitcoin Standard by Saifedean Ammous](https://saifedean.com/bitcoin-standard/) — economic perspective on Bitcoin's role as sound money.
 
 <!-- Beginner Issue 3 asks students to add one more resource below this line. -->

@@ -114,3 +114,13 @@ node .github/scripts/check-contributors.js
 ```
 
 No installation required — these use only Node's built-in capabilities.
+
+## Running collision detection tests (optional)
+
+To test the collision detection logic:
+
+```bash
+node test-collision.js
+```
+
+This runs automated tests for the `isColliding` function with overlapping, non-overlapping, and edge-case scenarios.
