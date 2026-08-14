@@ -10,7 +10,7 @@ const startOverlay = document.getElementById("start-overlay");
 const startBtn = document.getElementById("start-btn");
 const gameOverOverlay = document.getElementById("game-over-overlay");
 const finalScoreEl = document.getElementById("final-score");
-const restartBtn = document.getElementById("restart-btn");
+const restartBtn = document.getElementById("restart-btn") || document.getElementById("restart-button");
 
 const BASKET_WIDTH = 70;
 const BASKET_HEIGHT = 18;
