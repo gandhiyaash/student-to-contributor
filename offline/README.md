@@ -18,7 +18,7 @@ git commit
 git log
 ```
 
-Practice the full beginner task ([`../tasks/beginner.md`](../tasks/beginner.md), Issue 1) exactly as written — branch, edit `students/contributors.md`, commit — right up until the `git push` step. Everything up to there works offline.
+Practice the full beginner task ([`../tasks/beginner.md`](../tasks/beginner.md), Issue 1) exactly as written — branch, create your `students/<your-name>.md` file, commit — right up until the `git push` step. Everything up to there works offline, **as long as you already forked and cloned your fork while you had internet** (forking itself needs GitHub's website — if you haven't forked yet and the internet is down, there's nothing to clone; wait for connectivity to do that one-time step, then everything else here applies).
 
 ## What you can't do offline, and what to read instead
 

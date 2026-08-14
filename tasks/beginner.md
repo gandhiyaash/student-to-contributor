@@ -2,32 +2,39 @@
 
 Goal: experience the full contribution loop with the lowest possible risk. Pick **one** issue below.
 
-## Issue 1 — Add yourself to contributors
+All three issues use the fork workflow — see [`docs/fork-workflow.md`](../docs/fork-workflow.md) if you haven't forked and cloned yet. In short: you never push directly to this repository. You push to **your own fork**, and open a Pull Request from there.
 
-**Objective:** Practice branch → edit → commit → push → PR using a file designed to never conflict.
+## Issue 1 — Add your contributor profile
 
-**Why it matters:** This is the exact workflow every real open-source contribution uses, just with the lowest-stakes possible file.
+**Objective:** Practice fork → clone → branch → create file → commit → push → PR using a file that's guaranteed not to conflict with anyone else's.
+
+**Why it matters:** This is the exact workflow every real open-source contribution uses, just with the lowest-stakes possible file — every student creates their **own new file**, so 80 people can do this at the same time with zero merge conflicts.
 
 **Steps:**
-1. `git switch -c students/your-github-username`
-2. Open [`students/contributors.md`](../students/contributors.md)
-3. Add a new row at the **bottom** of the table with your name, GitHub username, and contribution.
-4. `git add students/contributors.md`
-5. `git commit -m "docs: add <your-name> to contributors"`
-6. `git push -u origin students/your-github-username`
-7. Open a Pull Request on GitHub. Fill in the PR template.
+1. Fork the repository (button, top-right of the GitHub page) if you haven't already.
+2. Clone **your fork**: `git clone https://github.com/<your-username>/student-to-contributor.git`
+3. `cd student-to-contributor`
+4. `git switch -c students/<your-github-username>`
+5. Copy [`students/TEMPLATE.md`](../students/TEMPLATE.md) to a new file named after you, e.g. `students/alice-johnson.md` (lowercase, hyphens, no spaces).
+6. Fill in your name, your GitHub username, and one sentence about what you learned.
+7. `git add students/<your-file>.md`
+8. `git commit -m "docs: add <your-name> student profile"`
+9. `git push -u origin students/<your-github-username>`
+10. Open a Pull Request on GitHub — it should target `gandhiyaash/student-to-contributor`'s `main` branch. Fill in the PR template.
 
 **Success criteria:**
-- Your row appears at the bottom of the table.
-- CI passes (no duplicate usernames, table format intact).
-- PR is opened against `main`.
+- A new file exists at `students/<your-name>.md` — no existing file touched.
+- CI passes (filename format, required headings, GitHub username unique).
+- PR is opened from your fork against `main`.
 
 **Hints:**
-- Don't touch any other row.
-- Your GitHub username must be unique across the whole file — CI will catch duplicates.
+- Don't edit anyone else's file — create your own.
+- Your GitHub username must be unique across all files in `students/` — CI will catch duplicates.
+- Full detail on every step: [`docs/fork-workflow.md`](../docs/fork-workflow.md).
 
 **Common mistakes:**
-- Editing someone else's row by accident (merge conflict).
+- Cloning the original repo instead of your fork (you'll get a "permission denied" when you try to push — see [`docs/troubleshooting.md`](../docs/troubleshooting.md)).
+- Naming your file with spaces, capital letters, or underscores instead of hyphens.
 - Forgetting the `@` before your GitHub username.
 - Committing directly to `main` instead of a branch.
 
@@ -40,7 +47,7 @@ Goal: experience the full contribution loop with the lowest possible risk. Pick 
 **Steps:**
 1. Read through [`README.md`](../README.md) or any file in [`docs/`](../docs/).
 2. Find (or introduce and fix) a typo, broken link, or unclear sentence.
-3. Branch, commit, push, open a PR as above, using branch name `docs/fix-typo-<short-description>`.
+3. Branch, commit, push (to your fork), open a PR as above, using branch name `docs/fix-typo-<short-description>`.
 
 **Success criteria:**
 - The fix is accurate and the diff is small and focused.

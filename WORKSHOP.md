@@ -40,16 +40,24 @@ Merge
 ```
 
 🎤 **SAY**
-"That's the whole shape of the workshop. Every box on that chart, you will personally go through today, at least once."
+"That's the whole shape of the workshop. Every box on that chart, you will personally go through today, at least once. First, a 2-minute mechanical step: fork this repository and clone your fork. Don't worry about why yet — we'll get to that. Just do it."
+
+🖥️ **SHOW**
+```text
+https://github.com/gandhiyaash/student-to-contributor
+```
+Click **Fork** live on screen so students see exactly what it looks like.
 
 👨‍🎓 **STUDENTS DO**
-Open [`README.md`](README.md) on their own laptop.
+1. Open `https://github.com/gandhiyaash/student-to-contributor` and click **Fork**.
+2. Clone their own fork: `git clone https://github.com/<their-username>/student-to-contributor.git`
+3. `cd student-to-contributor` and open [`README.md`](README.md).
 
 🧠 **TAKEAWAY**
-Today is about doing the workflow, not memorizing definitions.
+Today is about doing the workflow, not memorizing definitions — you'll understand *why* you just forked once we reach the GitHub section.
 
 ✅ **CHECKPOINT**
-Ask: "Everyone has the repo cloned and this README open?" — scan the room for stuck hands before moving on.
+Ask: "Everyone has forked, cloned their own fork, and has this README open in that folder?" — scan the room for stuck hands before moving on. Point anyone stuck at [`STUDENT_QUICKSTART.md`](STUDENT_QUICKSTART.md) or [`docs/troubleshooting.md`](docs/troubleshooting.md).
 
 ---
 
@@ -296,23 +304,23 @@ Your Computer
 "Everything we just did — status, diff, add, commit, branch — none of it touched the internet. Only `push` and `pull` do."
 
 🖥️ **SHOW**
-The GitHub repository page: the Issues tab (show 2-3 real issues), the branches dropdown, an existing closed PR if one exists, or the PR template preview.
+The GitHub repository page: the Issues tab (show 2-3 real issues), the branches dropdown, an existing closed PR if one exists, or the PR template preview. Then click **Fork** live, and explain: "None of you have write access to this repository — nobody does, that's normal. You fork it, work in your own copy, and propose changes back with a Pull Request. That's how every real open-source project works."
 
 🧠 **TAKEAWAY**
-Git = version control on your computer. GitHub = a hosting and collaboration platform for Git repositories.
+Git = version control on your computer. GitHub = a hosting and collaboration platform for Git repositories. A fork is your own copy of the whole repository; you contribute back to the original via Pull Request, never by pushing directly to it.
 
 ✅ **CHECKPOINT**
-Ask: "Can everyone see the repository on GitHub in their browser and confirm they have push access?"
+Ask: "Has everyone forked the repository and can see `<your-username>/student-to-contributor` under their own GitHub account?"
 
 ---
 
 ## 65–120 min — Student Contribution
 
 🎤 **SAY**
-"Now it's your turn. Pick one: beginner, intermediate, or advanced. Beginner if this is your first time with Git — genuinely, that's the right choice, not a lesser one."
+"You already forked and cloned at the start — if that somehow didn't happen, do it now: [`docs/fork-workflow.md`](docs/fork-workflow.md) Steps 1–3. Otherwise, pick one: beginner, intermediate, or advanced. Beginner if this is your first time with Git — genuinely, that's the right choice, not a lesser one."
 
 🖥️ **SHOW**
-[`tasks/beginner.md`](tasks/beginner.md), [`tasks/intermediate.md`](tasks/intermediate.md), [`tasks/advanced.md`](tasks/advanced.md) — scroll through each briefly.
+[`tasks/beginner.md`](tasks/beginner.md), [`tasks/intermediate.md`](tasks/intermediate.md), [`tasks/advanced.md`](tasks/advanced.md) — scroll through each briefly. Also point at [`STUDENT_QUICKSTART.md`](STUDENT_QUICKSTART.md) as the reference to keep open.
 
 👨‍🎓 **STUDENTS DO**
 ```text
@@ -324,14 +332,14 @@ Change
  ↓
 Commit
  ↓
-Push
+Push (to your fork)
  ↓
-PR
+PR (targets the original repo)
 ```
-Pick a task, branch, make the change, test it, commit, push, open a PR using the PR template. AI optional — `docs/claude-code-prompts.md` has ready prompts for anyone with access; everyone else follows the plain steps in their task file.
+Pick a task, branch, make the change, test it, commit, push to your fork, open a PR against `gandhiyaash/student-to-contributor`'s `main` using the PR template. AI optional — `docs/claude-code-prompts.md` has ready prompts for anyone with access; everyone else follows the plain steps in their task file.
 
 🎤 **SAY** (roaming while students work)
-"If you're stuck, check `docs/troubleshooting.md` first — SYMPTOM, CAUSE, FIX format, it covers almost everything that goes wrong today."
+"If you're stuck, check `docs/troubleshooting.md` first — SYMPTOM, CAUSE, FIX format, it covers almost everything that goes wrong today. If your PR shows no CI activity at all, that's expected on your very first PR — flag me, I need to manually approve the workflow run once per new contributor."
 
 🧠 **TAKEAWAY**
 This is the same loop as the live demo, just with your hands on the keyboard instead of watching.
@@ -369,11 +377,11 @@ Reference: [`offline/sample-ci-failure.md`](offline/sample-ci-failure.md) and [`
 🎤 **SAY**
 "Let's break CI on purpose so you know exactly what a failure looks like and how unscary it is to fix."
 
-💻 **RUN** (on a scratch branch, not a student's real PR)
+💻 **RUN** (on a scratch branch in your own clone of the upstream repo — you have write access as the maintainer; don't do this on a student's real PR)
 ```bash
 git switch -c demo/ci-failure
 ```
-Add a second row to `students/contributors.md` re-using an existing `@username`, commit, push, open a PR.
+Create a new file `students/demo-conflict.md` using the template, but set its `GitHub:` line to an `@username` that's already used in some other already-merged file under `students/` (pick any real one on screen). Commit, push, open a PR.
 
 🖥️ **SHOW**
 ```text
@@ -384,11 +392,11 @@ Click into the log:
 ❌ Validation failed
 
 Duplicate GitHub username detected:
-@example-student
+@<the-reused-username>  (used in students/<original-file>.md, students/demo-conflict.md)
 ```
 
 🎤 **SAY**
-"Read the error. It tells you exactly what's wrong and what to do." Fix the duplicate row, commit, push.
+"Read the error. It tells you exactly what's wrong, and which files are involved." Fix the duplicate — change the username in `students/demo-conflict.md` back to something unique (or delete the demo file entirely) — commit, push.
 
 🖥️ **SHOW**
 ```text

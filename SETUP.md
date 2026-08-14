@@ -70,7 +70,11 @@ Use the same email as your GitHub account if you want your commits linked to you
 
 ## Create a GitHub account
 
-If you don't already have one: [github.com/signup](https://github.com/signup). Remember your username — you'll add it to `students/contributors.md` on the day.
+If you don't already have one: [github.com/signup](https://github.com/signup). Remember your username — you'll use it to create your own file under `students/` on the day.
+
+## About forking (nothing to do yet)
+
+You do **not** get write access to the workshop repository — nobody does, and you don't need it. On the day, you'll fork it (make your own copy under your account) and contribute via Pull Request, exactly like any real open-source project. Full steps: `docs/fork-workflow.md` (we'll walk through it live at the start of the session, so there's nothing to prepare here).
 
 ## AI access (optional)
 

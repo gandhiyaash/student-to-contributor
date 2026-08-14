@@ -50,9 +50,21 @@ git switch feature/my-fix
 
 ---
 
+**SYMPTOM:** `git push` fails with "Permission to gandhiyaash/student-to-contributor.git denied" or a 403.
+**CAUSE:** You cloned the original repository instead of your fork, so `origin` points somewhere you don't have write access to.
+**FIX:** Run `git remote -v` and check the URL. If it says `gandhiyaash/student-to-contributor` instead of `<your-username>/student-to-contributor`, you cloned the wrong thing — fork it first, then re-clone your fork. See [`fork-workflow.md`](fork-workflow.md).
+
+---
+
+**SYMPTOM:** After pushing, nothing happens on your PR — no CI checks appear, just a gray dot or "Waiting."
+**CAUSE:** GitHub requires a maintainer to manually approve workflow runs for a contributor's first-ever PR to a repository. This is normal and not something you did wrong.
+**FIX:** Nothing to do on your end — flag it to the facilitator, who needs to click "Approve and run workflows" on the PR's Checks tab. Later PRs from you won't need this.
+
+---
+
 **SYMPTOM:** Confused about "fork" vs. "branch."
-**CAUSE:** They solve a similar problem at different levels — a fork is your own copy of the whole repository on GitHub; a branch is a line of work inside one repository.
-**FIX:** For this workshop, everyone works on **branches** in the same shared repository (you've been given write access) — no forking needed. If working on a repo you don't have write access to, you'd fork first, then branch inside your fork.
+**CAUSE:** They solve a similar problem at different levels — a fork is your own copy of the whole repository on GitHub; a branch is a line of work inside a repository.
+**FIX:** For this workshop, you fork the repository first (you don't have write access to the original), then create a branch *inside your fork*. See [`fork-workflow.md`](fork-workflow.md) for the exact sequence.
 
 ---
 

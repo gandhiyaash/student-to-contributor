@@ -15,8 +15,9 @@ You're about to become a contributor to this repository.
 ## The moving parts
 
 - **Issues** — a tracked description of a problem, bug, or missing feature. This is where work starts.
-- **Branches** — an isolated copy of the code where you make your change, so `main` stays stable while you work.
-- **Pull Requests (PRs)** — a request to merge your branch into `main`, with a diff the maintainer can review.
+- **Forks** — your own copy of the whole repository on GitHub. You don't have write access to the original, so you work in your fork instead — see [`fork-workflow.md`](fork-workflow.md).
+- **Branches** — an isolated copy of the code where you make your change, so `main` stays stable while you work. Branches live inside your fork.
+- **Pull Requests (PRs)** — a request to merge your branch (from your fork) into the original repository's `main`, with a diff the maintainer can review.
 - **Reviews** — a maintainer (or another contributor) reads your diff, asks questions, requests changes, or approves.
 - **CI (Continuous Integration)** — automated checks that run on every PR, so humans don't have to manually verify basic things like "does this even run."
 - **Licenses** — the legal terms under which the code can be used. They're why you're *allowed* to fork and reuse open-source code in the first place.
@@ -30,6 +31,10 @@ Read README
     ↓
 Read CONTRIBUTING.md
     ↓
+Fork
+    ↓
+Clone your fork
+    ↓
 Find issue
     ↓
 Understand issue
@@ -40,9 +45,9 @@ Test
     ↓
 Commit
     ↓
-Push
+Push (to your fork)
     ↓
-Pull Request
+Pull Request (targets the original repo)
     ↓
 Review
     ↓

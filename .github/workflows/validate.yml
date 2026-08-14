@@ -32,5 +32,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate contributors.md
+      - name: Validate student contributor files
         run: node .github/scripts/check-contributors.js

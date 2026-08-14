@@ -5,19 +5,23 @@ Thanks for contributing to Coin Catcher. This document is the exact workflow eve
 ## Prerequisites
 
 - Git installed (`git --version`) — see [`SETUP.md`](SETUP.md) if not.
-- A GitHub account with push access to this repository (workshop participants are given this in advance).
+- A GitHub account. **You do not need write access to this repository** — you'll fork it instead, same as any real open-source project.
 - Git identity configured:
   ```bash
   git config --global user.name "Your Name"
   git config --global user.email "your-email@example.com"
   ```
 
-## 1. Clone the repository
+## 1. Fork and clone
+
+Fork [`gandhiyaash/student-to-contributor`](https://github.com/gandhiyaash/student-to-contributor) on GitHub (button, top-right), then clone **your fork** — not the original:
 
 ```bash
-git clone https://github.com/<org>/student-to-contributor.git
+git clone https://github.com/<your-username>/student-to-contributor.git
 cd student-to-contributor
 ```
+
+Full detail, including the `origin`/`upstream` distinction: [`docs/fork-workflow.md`](docs/fork-workflow.md).
 
 ## 2. Create a branch
 
@@ -57,15 +61,17 @@ git commit -m "type: short description"
 
 Use a conventional prefix: `feat:`, `fix:`, `docs:`, `test:`, `refactor:`. Avoid `git add .` unless you've just reviewed `git status` and know exactly what it will stage.
 
-## 6. Push
+## 6. Push to your fork
 
 ```bash
 git push -u origin <your-branch-name>
 ```
 
+`origin` is your fork — this is the only remote you have write access to.
+
 ## 7. Open a Pull Request
 
-On GitHub, open a PR from your branch into `main`. Fill out the PR template completely — What changed, why, how you tested it, and the checklist.
+On GitHub, open a PR from your fork's branch into the original repository's `main` branch (GitHub shows a "Compare & pull request" banner after you push — click it). Fill out the PR template completely — What changed, why, how you tested it, and the checklist.
 
 ## 8. Wait for CI
 
