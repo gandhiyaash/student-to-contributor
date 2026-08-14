@@ -86,3 +86,4 @@ These are real and important, but out of scope for a 5-minute mental model. Look
 - [Mastering Bitcoin (free online book)](https://github.com/bitcoinbook/bitcoinbook) — the standard deep-dive technical reference.
 
 <!-- Beginner Issue 3 asks students to add one more resource below this line. -->
+- [Learn Me A Bitcoin](https://learnmeabitcoin.com) — an interactive visual guide to how Bitcoin works from the ground up.
