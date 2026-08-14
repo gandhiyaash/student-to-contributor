@@ -1,4 +1,4 @@
-# Your Full Name
+# Harsh Bhanushali
 
 GitHub: @harshbhx
 
