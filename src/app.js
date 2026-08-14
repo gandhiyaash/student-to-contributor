@@ -19,7 +19,7 @@ const ITEM_SIZE = 28;
 const SPAWN_INTERVAL_MS = 800;
 const BOMB_CHANCE = 0.2;
 
-let basket, items, score, lives, running, keys, lastSpawn, animationId;
+let basket, items, score, lives, running, keys, lastSpawn, animationId, touchX = null;
 
 function resetState() {
   basket = { x: canvas.width / 2 - BASKET_WIDTH / 2, y: canvas.height - BASKET_HEIGHT - 10 };
@@ -29,6 +29,7 @@ function resetState() {
   running = false;
   keys = {};
   lastSpawn = 0;
+  touchX = null;
   updateHud();
 }
 
@@ -67,6 +68,14 @@ function update(timestamp) {
 
   if (keys.ArrowLeft) basket.x -= BASKET_SPEED;
   if (keys.ArrowRight) basket.x += BASKET_SPEED;
+
+  // Mobile touch controls: position basket at touch location
+  if (touchX !== null) {
+    basket.x = touchX - BASKET_WIDTH / 2;
+  }
+
+  // Keep basket within canvas boundaries
+  basket.x = Math.max(0, Math.min(basket.x, canvas.width - BASKET_WIDTH));
 
   for (let i = items.length - 1; i >= 0; i--) {
     const item = items[i];
@@ -130,6 +139,26 @@ window.addEventListener("keydown", (e) => {
 });
 window.addEventListener("keyup", (e) => {
   keys[e.key] = false;
+});
+
+// Mobile touch controls
+canvas.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  touchX = touch.clientX - rect.left;
+});
+
+canvas.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  touchX = touch.clientX - rect.left;
+});
+
+canvas.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  touchX = null;
 });
 
 startBtn.addEventListener("click", startGame);
