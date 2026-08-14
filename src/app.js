@@ -37,13 +37,18 @@ function updateHud() {
   livesEl.textContent = lives;
 }
 
+function getDifficultyFactor() {
+  return Math.min(2.5, 1 + score / 200);
+}
+
 function spawnItem() {
   const isBomb = Math.random() < BOMB_CHANCE;
+  const difficultyFactor = getDifficultyFactor();
   items.push({
     x: Math.random() * (canvas.width - ITEM_SIZE),
     y: -ITEM_SIZE,
     size: ITEM_SIZE,
-    speed: 2 + Math.random() * 1.5,
+    speed: (2 + Math.random() * 1.5) * difficultyFactor,
     type: isBomb ? "bomb" : "coin",
   });
 }
@@ -51,8 +56,9 @@ function spawnItem() {
 // Should return true when the basket and the falling item's boxes overlap.
 function isColliding(basketBox, item) {
   return (
-    item.x > basketBox.x + BASKET_WIDTH &&
-    item.x + item.size < basketBox.x &&
+    item.x < basketBox.x + BASKET_WIDTH &&
+    item.x + item.size > basketBox.x &&
+    item.y < basketBox.y + BASKET_HEIGHT &&
     item.y + item.size > basketBox.y
   );
 }
@@ -60,13 +66,16 @@ function isColliding(basketBox, item) {
 function update(timestamp) {
   if (!running) return;
 
-  if (timestamp - lastSpawn > SPAWN_INTERVAL_MS) {
+  const currentSpawnInterval = Math.max(350, SPAWN_INTERVAL_MS / getDifficultyFactor());
+  if (timestamp - lastSpawn > currentSpawnInterval) {
     spawnItem();
     lastSpawn = timestamp;
   }
 
   if (keys.ArrowLeft) basket.x -= BASKET_SPEED;
   if (keys.ArrowRight) basket.x += BASKET_SPEED;
+
+  basket.x = Math.max(0, Math.min(canvas.width - BASKET_WIDTH, basket.x));
 
   for (let i = items.length - 1; i >= 0; i--) {
     const item = items[i];
