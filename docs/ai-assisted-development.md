@@ -81,4 +81,4 @@ Notice "Understand" appears twice — once before you ask AI anything (so you ca
 
 ## Where this shows up today
 
-The facilitator will demonstrate this exact loop live in [`docs/ai-live-demo.md`](ai-live-demo.md), on the real "Fix the Broken Catch Mechanic" issue in this repository. If you have AI access yourself, [`docs/claude-code-prompts.md`](claude-code-prompts.md) has ready-to-use prompts for your own contribution. If you don't have AI access, none of this is required — see [`tasks/`](../tasks/) for the plain human workflow.
+The facilitator will demonstrate this exact loop live in [`ai-live-demo.md`](ai-live-demo.md), on the real "Fix the Broken Catch Mechanic" issue in this repository. If you have AI access yourself, [`claude-code-prompts.md`](claude-code-prompts.md) has ready-to-use prompts for your own contribution. If you don't have AI access, none of this is required — see [`tasks/`](../tasks/) for the plain human workflow.
